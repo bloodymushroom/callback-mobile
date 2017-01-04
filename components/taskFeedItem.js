@@ -43,7 +43,7 @@ class TaskFeedItem extends Component {
       action_type: this.props.task.actionSource,
       action: this.props.task.type,
       // can be task.description
-      action_details: this.props.task.type,
+      action_details: this.props.task.description,
       companyName: this.props.task.company,
       // task item style
       borderColor: '#16C172',
@@ -61,7 +61,7 @@ class TaskFeedItem extends Component {
     var that = this;
 
     fetch('http://jobz.mooo.com:5000/actions/1/' + this.state.id, {
-      method: 'put'
+      method: 'PUT'
     }).then(function(response) {
         Alert.alert(completedText + nextTask);
 
@@ -129,30 +129,36 @@ class TaskFeedItem extends Component {
 
   render() {
     var style = {
-      barStyle: { flexDirection: 'row', alignItems: 'center', borderWidth: 2, marginTop: 2,
+      barStyle: { flex:1 , flexDirection: 'row', alignItems: 'center', borderWidth: 2,
       paddingLeft: 2,
       backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
       },
-      clickerStyle: {
-        flex:1
-      }
+      wrapperStyle: {
+        backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
+        flex: 1, flexDirection: 'row', marginTop: 2
+      },
+      checkboxStyle: {width: 35, flexDirection: 'column', alignSelf: 'flex-end',
+      justifyContent: 'center', alignItems: 'center'}
     }
 
     if ((this.props.category === 'Tasks' && this.state.completed_time === null) 
         || (this.props.category === 'History' && this.state.completed_time !== null)) {
       return (
-      <View style={style.barStyle}>
-        <View style={{width: 40}}><Text style={{textAlign: 'center'}}>{this.state.display_date}</Text></View>
-        <View style={{width: 50}}><Image 
-          style={{height: 35, width: 35, margin: 5}}
-          source={{uri: this.state.icon}} 
-        /></View>
-        <View style={{flexDirection: 'column', paddingRight: 50}}>
-          <Text style={{width: 230}}>{this.state.action_details}</Text>
-          <Text display={this.state.companyName}>{this.state.companyName}</Text>
+      <View style={style.wrapperStyle}>
+        <View style={style.barStyle}>
+          <View style={{width: 40}}><Text style={{textAlign: 'center'}}>{this.state.display_date}</Text></View>
+          <View style={{width: 50}}><Image 
+            style={{height: 35, width: 35, margin: 5}}
+            source={{uri: this.state.icon}} 
+          /></View>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text>{this.state.action_details}</Text>
+            <Text display={this.state.companyName}>{this.state.companyName}</Text>
+          </View>
         </View>
+        <View style={{justifyContent: 'center'}}>
         { this.props.category === 'Tasks' &&
-          <View style={{width: 35, flexDirection: 'column', marginLeft: -90}}>
+          <View style={style.checkboxStyle}>
             <TouchableOpacity onPress={this.completeTask}>  
               <Image 
                 style={{height: 20, width: 20, opacity: 0.5}}
@@ -167,6 +173,7 @@ class TaskFeedItem extends Component {
             </TouchableOpacity>
           </View>
         }
+        </View>
       </View>
       )
     } else {

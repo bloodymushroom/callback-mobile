@@ -1,44 +1,19 @@
 import React, {Component} from 'react';
-import {observer} from 'mobx-react/native'
-import Store from '../data/store'
 import {
-  AppRegistry, Text, View, TouchableOpacity, 
-  ScrollView, Button, TabBarIOS, 
-  Modal, WebView
+  AppRegistry, Text, View, ScrollView,  
 } from 'react-native'
-import {NavBar} from '../components/navBar'
-import JobListNav from '../components/jobListNav';
-import mobx from 'mobx';
-import moment from 'moment'
 import { NavigationStyles } from '@exponent/ex-navigation';
 
-@observer
-class JobInfoModal extends Component {
-  static route = {
-    styles: {
-      ...NavigationStyles.SlideVertical
-    }
-  }
-  constructor(props) {
-    super(props)
-  }
+//
+import JobInfoModal from '../components/jobInfoModal'
+import JobListItem from '../components/jobListItem'
+import JobListNav from '../components/jobListNav'
 
-  render() {
-    return (
-      <View style={{marginTop: 50, flex: 1}}>
-        <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={this.props.route.params.closeMoreInfo} style={{margin: 5, marginRight:10, width:20}}>
-            <Text style={{textAlign: 'right'}}>x</Text>
-          </TouchableOpacity>
-        </View>
-        <WebView
-          source={{uri: 'http://www.indeed.com/viewjob?jk=63f6adb4003fdbc0&qd=2D1SbNY9kR4nE7Vic078uECecHLgaHZkognc9Aw3-lq00Y2_gj98roOEvZ5dcskX_mVwn7KCs8LzIkVagHRsj7Mf_ojsScrcTKRH8kxZPkyQhwggWUZEvHtN5OcDtAPb&indpubnum=3095704304706909&atk=1b4uog094afm28nb'}}
-          style={{flex:1}}
-        />
-      </View>
-    )
-  }
-} 
+// state management
+import mobx from 'mobx';
+import {observer} from 'mobx-react/native'
+import Store from '../data/store'
+
 
 var NothingToReview = () => (
   <View style={{flex: 1, flexDirection: 'column'}}>
@@ -51,97 +26,6 @@ var NothingToReview = () => (
     </Text>
   </View>
 )
-
-@observer
-class JobListItem extends Component {
-  constructor(props){
-    super(props)
-
-    this.closeMoreInfo = this.closeMoreInfo.bind(this)
-  }
-
-  showMoreInfo(){
-    this.props.navigator.push('jobinfomodal', 
-      {
-        url: this.props.job.url,
-        closeMoreInfo: this.closeMoreInfo
-      }
-    )
-  }
-
-  closeMoreInfo(){
-    this.props.navigator.pop();
-  }
-
-  render() {
-    const {jobScreenActiveTab} = Store;
-    console.log('job', this.props.job)
-    var cleanSnippet = this.props.job.snippet.split('<b>').join('').split('</b>').join('')
-    var styles = {
-      jobItemStyle: {
-        flexDirection: 'column', borderWidth: 2, borderColor: '#a5a2a4', margin: 10, height: 400
-      },
-      yesButtonStyle: {
-        backgroundColor: '#4286f4',
-        borderRadius: 25,
-        margin: 5,
-        padding: 10
-      },
-      noButtonStyle: {
-        borderColor:"#A92324",
-        borderWidth: 2,
-        borderRadius: 25,
-        margin: 5,
-        marginTop: 0,
-        padding: 10
-      }
-    }
-
-    var JobInfo = () => (
-      <View style={{flex:1, flexDirection: 'column', margin: 10}}> 
-        <Text style={{fontSize: 20, margin: 2}}>{this.props.job.company}</Text>
-        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 2}}>{this.props.job.jobTitle}</Text>
-        <Text style={{fontSize: 20, margin: 2}} >
-          <Text style={{fontWeight: 'bold'}}>Date Posted: </Text>
-          {moment(this.props.job.createdAt).format('MMMM Do YYYY')}
-        </Text>
-        <Text style={{fontSize: 20, margin: 2}} >
-          <Text style={{fontWeight: 'bold'}}>Location: </Text>
-          {this.props.job.city}, {this.props.job.state}
-        </Text>
-        <Text style={{fontSize: 20, margin: 2, fontWeight:'bold'}}>Description:</Text>
-        <ScrollView style={{height: 200}}>
-          <Text style={{fontSize: 15, margin: 2}}>{cleanSnippet}</Text>
-        </ScrollView>
-        <TouchableOpacity style={{width:100, height:15}} onPress={this.showMoreInfo.bind(this)}>
-          <Text style={{color: 'blue', fontSize: 15}}> show more</Text>
-        </TouchableOpacity>
-      </View>
-    )
-    if (jobScreenActiveTab === 'Active' || jobScreenActiveTab === 'All') {
-      return (
-        <View style={styles.jobItemStyle}>
-          <JobInfo />
-        </View>
-      )
-      // && reviewed === false
-    } else if (jobScreenActiveTab === 'Pending') {
-      return (
-        <View style={styles.jobItemStyle}>
-          <JobInfo/>
-          <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('save')}>
-            <Text style={{color: '#ffffff', textAlign: 'center'}}>Save Job</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.noButtonStyle} onPress={() => this.props.handleClick('no save')}>
-            <Text style={{textAlign: 'center'}}>Not Interested</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    } else {
-      return null;
-    }
-  }
-}
 
 // main
 @observer
@@ -192,10 +76,23 @@ class JobListScreen extends Component {
   }
 
   componentWillMount() {
-    fetch('http://jobz.mooo.com:3000/jobs/1')
-        .then((response) => response.json())
+    fetch('http://jobz.mooo.com:5000/jobs/1', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: 'new'
+      })
+    })
+        .then((response) => {
+          // console.log('jobs found: ', response)
+          return response.json()
+        })
         .then((responseJson) => {
-          Store.updateJobs(responseJson.Jobs);
+          console.log('jobs found: ', responseJson)
+          Store.updateJobs(responseJson);
         })
         .catch((error) => {
           console.error(error);
