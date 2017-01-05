@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-  AppRegistry, Text, View, ScrollView,  
+  AppRegistry, Text, View, ScrollView, Alert
 } from 'react-native'
 import { NavigationStyles } from '@exponent/ex-navigation';
 
@@ -59,13 +59,43 @@ class JobListScreen extends Component {
     })
   }
 
-  handleClick(button) {
+  handleClick(button, jobId, job) {
     const {jobs} = Store;
 
-    if (button === 'save') {
-      // save job and generate next action
-    } else {
-      // do not save job
+    // save job and generate next action
+    if (button === 'favor') {
+      console.log('hello')
+      fetch('http://jobz.mooo.com:5000/users/1/jobs/' + jobId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          status: 'favored'
+        })
+      })
+      .then((response) => {
+        Store.addFavoredJob(job);
+        Alert.alert('Added job: ' + job.jobTitle + ', ' + job.company)
+        console.log('success')
+      })
+    }
+
+    if (button === 'unfavor') {
+      // set job as unfavored
+      fetch('http://jobz.mooo.com:5000/users/1/jobs/' + jobId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          status: 'unfavored'
+        })
+      })
+      .then((response) => {
+        console.log('removed')
+        Alert.alert('Removed job: ' + job.jobTitle + ', ' + job.company)
+      })
     }
 
     this.setState({
@@ -75,48 +105,29 @@ class JobListScreen extends Component {
     console.log('num: ', this.state.jobIndex, jobs.length)
   }
 
-  componentWillMount() {
-    fetch('http://jobz.mooo.com:5000/jobs/1', {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        status: 'new'
-      })
-    })
-        .then((response) => {
-          // console.log('jobs found: ', response)
-          return response.json()
-        })
-        .then((responseJson) => {
-          console.log('jobs found: ', responseJson)
-          Store.updateJobs(responseJson);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-  }
-
-          // <JobListItem job={jobs[0]} reviewed={e.reviewed} navigator={this.props.navigator}/>
   render() {
-    const {jobs, jobScreenActiveTab} = Store;
-    var jobsArray = jobs.slice();
-    // console.log('job', jobs[0])
-    // e = mobx.toJS(e);
+    var {jobs, favoredJobs, jobScreenActiveTab} = Store;
 
     return (
-      <View style={{flex:1, marginTop: 10}}>
+      <View style={{flex:1, marginTop: 5}}>
         <JobListNav user='Joosang' />
         { this.state.jobIndex > jobs.length - 1 && 
           <NothingToReview />
         }
+        { jobScreenActiveTab === 'Pending' &&
         <ScrollView>
          { jobs.map( (e, i) => (
              i === this.state.jobIndex && <JobListItem key={i} job={e} reviewed={e.reviewed} handleClick={this.handleClick} navigator={this.props.navigator}/>
          ))}
         </ScrollView>
+        }
+        { jobScreenActiveTab === 'Active' &&
+        <ScrollView>
+         { favoredJobs.map( (e, i) => (
+            <JobListItem key={i} job={e} reviewed={e.reviewed} handleClick={this.handleClick} navigator={this.props.navigator}/>
+         ))}
+        </ScrollView>
+        }
       </View>
     )
   }

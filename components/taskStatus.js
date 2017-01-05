@@ -4,7 +4,7 @@ import {
   View,
   Image
 } from 'react-native';
-import TaskStatusItem from './taskStatusItem'
+import TaskStatusItem from './taskStatusItem';
 
 // Task status bar - number of tasks pending, completed, etc
 class TaskStatus extends Component {

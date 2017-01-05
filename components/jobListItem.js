@@ -55,23 +55,23 @@ export default class JobListItem extends Component {
 
     var JobInfo = () => (
       <View style={{flex:1, flexDirection: 'column', margin: 10}}> 
-        <Text style={{fontSize: 20, margin: 2}}>{this.props.job.company}</Text>
-        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 2}}>{this.props.job.jobTitle}</Text>
-        <Text style={{fontSize: 20, margin: 2}} >
+        <Text style={{fontSize: 15, margin: 2}}>{this.props.job.company}</Text>
+        <Text style={{fontWeight: 'bold', fontSize: 20, margin: 2}}>{this.props.job.jobTitle}</Text>
+        <Text style={{fontSize: 15, margin: 2}} >
           <Text style={{fontWeight: 'bold'}}>Date Posted: </Text>
           {moment(this.props.job.createdAt).format('MMMM Do YYYY')}
         </Text>
-        <Text style={{fontSize: 20, margin: 2}} >
+        <Text style={{fontSize: 15, margin: 2}} >
           <Text style={{fontWeight: 'bold'}}>Location: </Text>
           {this.props.job.city}, {this.props.job.state}
         </Text>
-        <Text style={{fontSize: 20, margin: 2, fontWeight:'bold'}}>Description:</Text>
+        <Text style={{fontSize: 15, margin: 2, fontWeight:'bold'}}>Description:</Text>
         <ScrollView style={{height: 200}}>
           <Text style={{fontSize: 15, margin: 2}}>{cleanSnippet}</Text>
+          <TouchableOpacity style={{width:100, height:15}} onPress={this.showMoreInfo.bind(this)}>
+            <Text style={{color: 'blue', fontSize: 15}}> show more</Text>
+          </TouchableOpacity>
         </ScrollView>
-        <TouchableOpacity style={{width:100, height:15}} onPress={this.showMoreInfo.bind(this)}>
-          <Text style={{color: 'blue', fontSize: 15}}> show more</Text>
-        </TouchableOpacity>
       </View>
     )
     if (jobScreenActiveTab === 'Active' || jobScreenActiveTab === 'All') {
@@ -85,10 +85,10 @@ export default class JobListItem extends Component {
       return (
         <View style={styles.jobItemStyle}>
           <JobInfo/>
-          <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('save')}>
+          <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('favor', this.props.job.id, this.props.job)}>
             <Text style={{color: '#ffffff', textAlign: 'center'}}>Save Job</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.noButtonStyle} onPress={() => this.props.handleClick('no save')}>
+          <TouchableOpacity style={styles.noButtonStyle} onPress={() => this.props.handleClick('unfavor', this.props.job.id, this.props.job)}>
             <Text style={{textAlign: 'center'}}>Not Interested</Text>
           </TouchableOpacity>
         </View>

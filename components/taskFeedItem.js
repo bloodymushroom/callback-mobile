@@ -8,6 +8,10 @@ import {
 } from 'react-native';
 import moment from 'moment'
 
+// state management
+import {observer} from 'mobx-react/native'
+import Store from '../data/store'
+
 // icons
 var icons = {
   hamburger: 'https://cdn3.iconfinder.com/data/icons/simple-toolbar/512/menu_start_taskbar_and_window_panel_list-128.png',
@@ -28,6 +32,7 @@ var icons = {
 }
 
 // each item in the task feed
+@observer
 class TaskFeedItem extends Component {
   constructor(props){
     super(props);
@@ -56,39 +61,44 @@ class TaskFeedItem extends Component {
 
   completeTask() {
     var date = new Date();
-    var completedText = "Completed task: " + this.state.action + '\n';
-    var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
-    var that = this;
 
-    fetch('http://jobz.mooo.com:5000/actions/1/' + this.state.id, {
-      method: 'PUT'
-    }).then(function(response) {
-        Alert.alert(completedText + nextTask);
+    console.log('dates: ', date)
+    // var completedText = "Completed task: " + this.state.action + '\n';
+    // var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
+    // var that = this;
 
-        that.setState({
-          completed_time: date
-        })
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // fetch('http://jobz.mooo.com:5000/actions/1/' + this.state.id, {
+    //   method: 'PUT'
+    // }).then(function(response) {
+    //     Alert.alert(completedText + nextTask);
+
+    //     that.setState({
+    //       completed_time: date
+    //     })
+
+    //     Store.updateActionCount('-');
+    //     Store.updateHistoryCount();
+    //     Store.push(that.props.task, 'actionHistory')
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
 
     // also need to update db
   }
 
   setItemStyle(time, completed) {
     // yellow border if due today
-    if (time === 0) {
-      this.setState({
-        borderColor: '#F8CF46'
-      })
-    } else if (completed !== null) {
-      // if completed and overdue, gray border
+
+    if (completed !== null) {      
       this.setState ({
         borderColor: '#a5a2a4',
         backgroundColor: '#ffffff'
       })
-      // if (completed !== null) {
+    } else if (time === 0) {
+      this.setState({
+        borderColor: '#F8CF46'
+      })
     } else {
       // if not completed and overdue, highlight red
       this.setState ({
@@ -107,14 +117,20 @@ class TaskFeedItem extends Component {
     var displayDate;
 
     // use diff to determine the display date in the task item
-    if (diff < 0) {
-      displayDate = this.state.completed_time !== null? diff * -1 + ' days ago': 'over due';
-    } else if (diff === 0) {
-      displayDate = 'today'
-    } else if (diff === 1) {
-      displayDate = diff + ' day'
+    if (this.state.completed_time !== null) {
+      var completedDate = moment(this.state.completed_time)
+      diff = completedDate.diff(now, 'days');
+      displayDate = diff === 0? 'today' : diff * -1 + ' days ago'; 
     } else {
-      displayDate = diff + '\ndays'
+      if (diff < 0) {
+        displayDate = 'over due';
+      } else if (diff === 0) {
+        displayDate = 'today';
+      } else if (diff === 1) {
+        displayDate = diff + ' day';
+      } else {
+        displayDate = diff + '\ndays';
+      }
     }
 
     // add props for time relative to today and display date
