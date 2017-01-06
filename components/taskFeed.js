@@ -23,14 +23,12 @@ class TaskFeed extends Component {
     }
   }
 
-  componentWillMount(){
-    var tasks = mobx.toJS(Store.actions)
-    console.log('current actions', mobx.toJS(Store.actions));
-    this.setState({
-      feedTasks: tasks
-    })
-    console.log(this.state.feedTasks);
-  }
+  // componentWillMount(){
+  //   var tasks = mobx.toJS(Store.actions)
+  //   this.setState({
+  //     feedTasks: tasks
+  //   })
+  // }
 
   compareDates(a, b){
     // sort completed tasks by descending
@@ -51,7 +49,7 @@ class TaskFeed extends Component {
     }
     const {actions, actionHistory} = Store;
     var actionsArray = this.props.category === 'Tasks'? mobx.toJS(actions): mobx.toJS(actionHistory).sort((a, b) => this.compareDates(a.completedTime, b.completedTime));
-    this.props.category === 'History'? console.log('history constant actions', actionsArray): true;
+    // this.props.category === 'History'? console.log('history constant actions', actionsArray): true;
     var that = this;
 
     return (

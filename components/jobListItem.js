@@ -31,7 +31,6 @@ export default class JobListItem extends Component {
 
   render() {
     const {jobScreenActiveTab} = Store;
-    console.log('job', this.props.job)
     var cleanSnippet = this.props.job.snippet.split('<b>').join('').split('</b>').join('')
     var styles = {
       jobItemStyle: {

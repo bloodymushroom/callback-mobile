@@ -11,6 +11,7 @@ import RootNavigation from './RootNavigation';
 import CreateParamModal from '../components/createParamModal'
 
 const Router = createRouter(() => ({
+  // home: () => CreateParamModal,
   home: () => TaskScreen,
   jobinfomodal: () => JobInfoModal,
   createparammodal: () => CreateParamModal,

@@ -15,6 +15,7 @@ import Store from '../data/store'
 import {NavBar} from '../components/navBar'
 import ParamItem from '../components/paramItem'
 import CreateParamModal from '../components/createParamModal'
+import config from '../constants/Routes'
 
 export default class ParamsScreen extends Component {
   static route = {
@@ -69,7 +70,7 @@ export default class ParamsScreen extends Component {
         }
       </ScrollView>
       <View>
-        <TouchableOpacity style={styles.createButtonStyle} onPress={() => this.updateParam()}>
+        <TouchableOpacity style={styles.createButtonStyle} onPress={() => this.updateParam(1)}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Create New</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButtonStyle} >

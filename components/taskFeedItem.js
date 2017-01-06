@@ -12,6 +12,9 @@ import moment from 'moment'
 import {observer} from 'mobx-react/native'
 import Store from '../data/store'
 
+import config from '../constants/Routes'
+
+
 // icons
 var icons = {
   hamburger: 'https://cdn3.iconfinder.com/data/icons/simple-toolbar/512/menu_start_taskbar_and_window_panel_list-128.png',
@@ -61,30 +64,26 @@ class TaskFeedItem extends Component {
 
   completeTask() {
     var date = new Date();
+    var completedText = "Completed task: " + this.state.action + '\n';
+    var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
+    var that = this;
 
-    console.log('dates: ', date)
-    // var completedText = "Completed task: " + this.state.action + '\n';
-    // var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
-    // var that = this;
+    fetch(config.host + '/actions/1/' + this.state.id, {
+      method: 'PUT'
+    }).then(function(response) {
+        Alert.alert(completedText + nextTask);
 
-    // fetch('http://jobz.mooo.com:5000/actions/1/' + this.state.id, {
-    //   method: 'PUT'
-    // }).then(function(response) {
-    //     Alert.alert(completedText + nextTask);
+        that.setState({
+          completed_time: date
+        })
 
-    //     that.setState({
-    //       completed_time: date
-    //     })
-
-    //     Store.updateActionCount('-');
-    //     Store.updateHistoryCount();
-    //     Store.push(that.props.task, 'actionHistory')
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-
-    // also need to update db
+        Store.updateActionCount('-');
+        Store.updateHistoryCount();
+        Store.push(that.props.task, 'actionHistory')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   setItemStyle(time, completed) {

@@ -24,13 +24,18 @@ class ObservableStore {
 
   @action changeJobScreenTab(tabName) {
     this.jobScreenActiveTab = tabName;
-    console.log('jobs: ', this.jobs)
+    // console.log('jobs: ', this.jobs)
   }
 
   // general
   @action push(entry, array){
     if (array === 'actionHistory') {
       this.actionHistory.push(entry);
+    }
+
+    if (array === 'userParams') {
+      console.log('pushed to userParams')
+      this.userParams.push(entry);
     }
   }
 
@@ -96,8 +101,6 @@ class ObservableStore {
       }
     })
 
-    this.actionHistory = this.actionHistory.sort((a, b) => a.scheduledTime < b.scheduledTime? 1 : 0)
-    console.log('sorted', this.actionHistory)
     this.actionCount = this.activeActions.length;
     // console.log('actioncount', this.actionCount)
     this.actionHistoryCount = this.actionHistory.length;

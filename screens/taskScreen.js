@@ -14,6 +14,7 @@ import {
   Image, 
   Button,
 } from 'react-native';
+import config from '../constants/Routes'
 import moment from 'moment'
 import {observer} from 'mobx-react/native'
 import Store from '../data/store'
@@ -21,6 +22,9 @@ import {NavBar} from '../components/navBar'
 import TaskStatusItem from '../components/taskStatusItem'
 import TaskStatus from '../components/taskStatus'
 import TaskFeed from '../components/taskFeed'
+
+// config
+
 // import data from '../data/fakeData'
 
 // import {Nav} from 'react-bootstrap'
@@ -102,7 +106,7 @@ export default class TaskScreen extends Component {
   componentWillMount() {
     var that = this;
     // get actions
-    fetch('http://jobz.mooo.com:5000/actions/1')
+    fetch(config.host+ '/actions/1')
       .then((response) => {
         return response.json()
       })
@@ -115,9 +119,10 @@ export default class TaskScreen extends Component {
       });
 
       // set new jobs
-    fetch('http://jobz.mooo.com:5000/jobs/1/new')
+    fetch(config.host + '/jobs/1/new')
       .then((response) => {
         // console.log('jobs found: ', response)
+        console.log('config', config.host)
         return response.json();
       })
       .then((responseJson) => {
@@ -129,7 +134,7 @@ export default class TaskScreen extends Component {
       });
 
     // set favored jobs {
-    fetch('http://jobz.mooo.com:5000/jobs/1/favored')
+    fetch(config.host + '/jobs/1/favored')
       .then((response) => {
         // console.log('jobs found: ', response)
         return response.json()
@@ -142,14 +147,14 @@ export default class TaskScreen extends Component {
       })
 
     // get params for user {
-    fetch('http://jobz.mooo.com:5000/user/params/1')
+    fetch(config.host + '/parameter/1')
       .then((response) => {
         // console.log('jobs found: ', response)
         return response.json()
       })
       .then((responseJson) => {
-        console.log('params: ', responseJson.Parameters)
-        Store.updateUserParams(responseJson.Parameters)
+        console.log('params: ', responseJson[0].Parameters)
+        Store.updateUserParams(responseJson[0].Parameters)
       })
       .catch((error) => {
         console.error(error);
