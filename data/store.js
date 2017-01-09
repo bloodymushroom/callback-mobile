@@ -11,6 +11,7 @@ class ObservableStore {
   @observable actionHistory = [];
   @observable actionCount = 0;
   @observable actionHistoryCount = 0;
+  @observable actionTypes = {};
   // new jobs
   @observable jobs = [];
   @observable jobCount = 0;
@@ -21,6 +22,25 @@ class ObservableStore {
   @observable jobModalUrl = '';
   // parameters
   @observable userParams = [];
+  // new form items
+  @observable newJob = {
+    jobTitle: null,
+    company: null,
+    url: null, 
+    address:    null,
+    city:       null,
+    state:      null,
+    snippet:    null,
+    source:     'user',
+    origin:     'user' , //'indeed', 'dice', user, etc.
+    id:         1
+  }
+
+  @action updateForm(formName, formField, item) {
+    if (formName === 'newJob') {
+      this.newJob[formField] = item;
+    }
+  }
 
   @action changeJobScreenTab(tabName) {
     this.jobScreenActiveTab = tabName;
@@ -36,6 +56,16 @@ class ObservableStore {
     if (array === 'userParams') {
       console.log('pushed to userParams')
       this.userParams.push(entry);
+    }
+
+    if (array === 'favoredJobs') {
+      console.log('added a job');
+      this.favoredJobs.push(entry);
+    }
+
+    if(array === 'actions') {
+      console.log('added an action');
+      this.actions.push(entry);   
     }
   }
 
@@ -94,6 +124,12 @@ class ObservableStore {
   @action sortActions(res) {
     var that = this;
     res.forEach(function(action) {
+      if(action.type) {
+        if(!that.actionTypes[action.type]) {
+          that.actionTypes[action.type] = action.type;
+        }
+      }
+
       if (action.completedTime === null) {
         that.activeActions.push(action)
       } else {

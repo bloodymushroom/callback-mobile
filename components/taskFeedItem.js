@@ -152,7 +152,7 @@ class TaskFeedItem extends Component {
         backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
         flex: 1, flexDirection: 'row', marginTop: 2
       },
-      checkboxStyle: {width: 35, flexDirection: 'column', alignSelf: 'flex-end',
+      checkboxStyle: {width: 60, flexDirection: 'row', alignSelf: 'flex-end',
       justifyContent: 'center', alignItems: 'center'}
     }
 
@@ -176,13 +176,13 @@ class TaskFeedItem extends Component {
           <View style={style.checkboxStyle}>
             <TouchableOpacity onPress={this.completeTask}>  
               <Image 
-                style={{height: 20, width: 20, opacity: 0.5}}
+                style={{height: 30, width: 30, opacity: 0.5}}
                 source={{uri: icons.done}} 
               />
             </TouchableOpacity>
             <TouchableOpacity>
               <Image 
-                style={{height: 20, width: 20, opacity: 0.8}}
+                style={{height: 30, width: 30, opacity: 0.8}}
                 source={{uri: icons.x}} 
               />
             </TouchableOpacity>

@@ -60,9 +60,10 @@ export default class ParamsScreen extends Component {
   }
   return (
     <View style={{flex:1, flexDirection: 'column', marginTop:5}}>
-      <Text>Hi Joosang, here are your current job preferences.</Text>
-      <Text>Searches: </Text>
-      <ScrollView style={{margin: 2}}>
+      <View style={{margin:5}}>
+        <Text>Hi <Text style={{fontWeight: 'bold'}}>Joosang</Text>, here are your current job preferences.</Text>
+      </View>
+      <ScrollView style={{margin: 5}}>
         {
           userParams.map((e, i) => (
             <ParamItem key={i} param={e} />

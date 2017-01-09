@@ -1,11 +1,79 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native'
+import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native'
 import JobInfoModal from './jobInfoModal'
 import moment from 'moment'
 
 // state management
 import {observer} from 'mobx-react/native'
 import Store from '../data/store'
+
+
+var icons = {
+  x: 'https://cdn0.iconfinder.com/data/icons/web/512/e52-128.png',
+  edit: 'http://icons.iconarchive.com/icons/pixelkit/gentle-edges/128/Edit-icon.png',
+  tasks: 'https://cdn1.iconfinder.com/data/icons/notes-and-tasks/24/Add-Task-128.png'
+}
+
+class JobOptionButtons extends Component {
+  constructor(props){
+    super(props);
+
+    this.openJobActionView = this.openJobActionView.bind(this);
+  }
+
+  openJobActionView(){
+    var that = this;
+    this.props.navigator.push('jobactionview', {
+      job: that.props.job
+    });
+  }
+
+  render(){
+    var styles = {
+      iconStyle: {
+        flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
+      },
+      iconText: {
+        fontSize: 10
+      },
+      iconImage: {
+        height: 30, width: 30, opacity: 0.5, marginBottom: 2
+      }
+    }
+
+    return (
+      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+        <View style={styles.iconStyle}>
+          <TouchableOpacity onPress={this.openJobActionView}>  
+          <Image 
+            style={styles.iconImage}
+            source={{uri: icons.tasks}} 
+          />
+          </TouchableOpacity>
+          <Text style={styles.iconText}>Manage Tasks</Text>
+        </View>
+        <View style={styles.iconStyle}>
+          <TouchableOpacity >  
+          <Image 
+            style={styles.iconImage}
+            source={{uri: icons.edit}} 
+          />
+          </TouchableOpacity>
+          <Text style={styles.iconText}>Edit Job</Text>
+        </View>
+        <View style={styles.iconStyle}><TouchableOpacity >
+          <Image 
+            style={styles.iconImage}
+            source={{uri: icons.x}} 
+          />
+          </TouchableOpacity>
+          <Text style={styles.iconText}>Delete Job</Text>
+        </View>
+      </View>
+    )
+  }
+}
+
 
 
 @observer
@@ -31,7 +99,7 @@ export default class JobListItem extends Component {
 
   render() {
     const {jobScreenActiveTab} = Store;
-    var cleanSnippet = this.props.job.snippet.split('<b>').join('').split('</b>').join('')
+    var cleanSnippet = this.props.job.snippet? this.props.job.snippet.split('<b>').join('').split('</b>').join('') : '(no description)';
     var styles = {
       jobItemStyle: {
         flexDirection: 'column', borderWidth: 2, borderColor: '#a5a2a4', margin: 10, height: 400
@@ -73,17 +141,20 @@ export default class JobListItem extends Component {
         </ScrollView>
       </View>
     )
-    if (jobScreenActiveTab === 'Active' || jobScreenActiveTab === 'All') {
+
+    // active jobs - will have options to view actions associated with job
+    if (jobScreenActiveTab === 'Active') {
       return (
         <View style={styles.jobItemStyle}>
           <JobInfo />
+          <JobOptionButtons job={this.props.job} navigator={this.props.navigator}/>
         </View>
       )
-      // && reviewed === false
+      // pending jobs - tinder swipe
     } else if (jobScreenActiveTab === 'Pending') {
       return (
         <View style={styles.jobItemStyle}>
-          <JobInfo/>
+          <JobInfo job={this.props.job}/>
           <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('favor', this.props.job.id, this.props.job)}>
             <Text style={{color: '#ffffff', textAlign: 'center'}}>Save Job</Text>
           </TouchableOpacity>

@@ -5,34 +5,37 @@ import {
 } from 'react-native'
 import { NavigationStyles } from '@exponent/ex-navigation';
 
-// state management
+// store
 import mobx from 'mobx';
-import {observer} from 'mobx-react/native'
-import Store from '../data/store'
+import {observer} from 'mobx-react/native';
+import Store from '../data/store';
 
 var x = 'https://cdn0.iconfinder.com/data/icons/web/512/e52-128.png'
 
 @observer
-export default class CreateParamModal extends Component {
+export default class CreateJobModal extends Component {
   static route = {
     styles: {
       ...NavigationStyles.SlideVertical
     },
     navigationBar: {
-      title: 'Preferences'
+      title: 'Jobs'
     },
   }
 
   constructor(props) {
     super(props)
 
-
     this.state = {
-      descriptor: null,
-      city: null,
-      state: null,
-      radius: 25,
-      zip: null
+      jobTitle:   null,
+      company:    null,
+      url:        null, 
+      address:    null,
+      city:       null,
+      state:      null,
+      snippet:    null,
+      origin:     'user',
+      userid:     1
     }
 
     this.closeModal = this.closeModal.bind(this);
@@ -44,30 +47,46 @@ export default class CreateParamModal extends Component {
   }
 
   submitFields(){
+    const {newJob} = Store;
+    var newJobJS = mobx.toJS(newJob);
     var that = this;
     console.log('before send: ' , that.state)
-    fetch(config.host + '/parameter/1', 
+    fetch(config.host + '/jobs', 
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
+        // need to fix - not working
         body: JSON.stringify({
-          descriptor: that.state.descriptor,
-          city: that.state.city,
-          state: that.state.state,
-          radius: that.state.radius,
-          zip: that.state.zip
+          id: 1,
+          jobTitle: 'testfromPhone',
+          company: 'Test',
+          snippet: 'testestest'
         })
+        // {
+          // jobTitle:   this.state.jobTitle,
+          // company:    this.state.company,
+          // url:        this.state.url, 
+          // address:    this.state.address,
+          // city:       this.state.city,
+          // state:      this.state.state,
+          // snippet:    this.state.snippet,
+          // origin:     this.state.origin,
+          // id:         this.state.userid 
+        // }
       })
       .then((response) => {
-        Store.push(that.state, 'userParams');
+        console.log('added a job', newJobJS)
+        Store.push(newJobJS, 'favoredJobs')
+        // Store.push(that.state, 'userParams');
         that.closeModal();
       })
     // that.closeModal();
   }
 
   render() {
+    const {newJob} = Store;
     var styles = {
       inputStyle: {
         flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
@@ -79,7 +98,7 @@ export default class CreateParamModal extends Component {
       }
     }
     return (
-      <View style={{flex:1, alignItems:'center'}}>
+      <View style={{flex:1, alignItems:'center', margin: 10}}>
         <View style={{alignItems: 'flex-end'}}>
           <TouchableOpacity onPress={this.closeModal} style={{margin: 5, marginRight:10, width:20}}>
             <Image 
@@ -92,44 +111,56 @@ export default class CreateParamModal extends Component {
           <Text>ID: {this.props.route.params.id}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text>Job Type: </Text>
+          <Text>Job Title: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              this.setState({descriptor: text}) 
+              Store.updateForm('newJob', 'jobTitle', text)
             }} 
           />
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text>Company: </Text>
+          <TextInput style={styles.inputStyle} 
+            onChangeText={(text) => {
+              Store.updateForm('newJob', 'company', text)
+            }} 
+          />        
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text>Url: </Text>
+          <TextInput style={styles.inputStyle} 
+            onChangeText={(text) => {
+              Store.updateForm('newJob', 'url', text)
+            }} 
+          />        
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text>Address: </Text>
+          <TextInput style={styles.inputStyle} 
+            onChangeText={(text) => {
+              Store.updateForm('newJob', 'address', text)
+            }} 
+          />        
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text>City: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              this.setState({city: text}) 
+              Store.updateForm('newJob', 'city', text)
             }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
+          />  
           <Text>State: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              this.setState({'state': text}) 
+              Store.updateForm('newJob', 'state', text)
             }} 
           />        
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text>Radius: </Text>
+          <Text>Description: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              this.setState({radius: text});
-              console.log('radius: ', text)
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Zipcode: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({zip: text});
-              console.log('zip: ', text)
+              Store.updateForm('newJob', 'snippet', text)
             }} 
           />        
         </View>

@@ -153,7 +153,7 @@ export default class TaskScreen extends Component {
         return response.json()
       })
       .then((responseJson) => {
-        console.log('params: ', responseJson[0].Parameters)
+        // update
         Store.updateUserParams(responseJson[0].Parameters)
       })
       .catch((error) => {

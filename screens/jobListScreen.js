@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
-  AppRegistry, Text, View, ScrollView, Alert
+  AppRegistry, Text, View, ScrollView, Alert,
+  TextInput, TouchableOpacity
 } from 'react-native'
 import { NavigationStyles } from '@exponent/ex-navigation';
 
@@ -47,7 +48,8 @@ class JobListScreen extends Component {
 
     this.state = {
       activeTab: 'Active',
-      jobIndex: 0
+      jobIndex: 0,
+      searchTerm: '',
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -57,6 +59,10 @@ class JobListScreen extends Component {
     this.props.navigator.push({
       name: 'hiredly.me'
     })
+  }
+
+  createJobView() {
+    this.props.navigator.push('createjobmodal');
   }
 
   handleClick(button, jobId, job) {
@@ -107,7 +113,17 @@ class JobListScreen extends Component {
 
   render() {
     var {jobs, favoredJobs, jobScreenActiveTab} = Store;
-
+    var styles = {
+      inputStyle: {
+        height: 30, flex: 1, borderColor:"#a5a2a4", borderWidth: 1
+      },
+      createButtonStyle: {
+        backgroundColor: '#4286f4',
+        borderRadius: 25,
+        margin: 5,
+        padding: 10
+      }
+    }
     return (
       <View style={{flex:1, marginTop: 5}}>
         <JobListNav user='Joosang' />
@@ -115,18 +131,29 @@ class JobListScreen extends Component {
           <NothingToReview />
         }
         { jobScreenActiveTab === 'Pending' &&
-        <ScrollView>
+        <ScrollView style={{flex: 1, margin: 5}}>
          { jobs.map( (e, i) => (
              i === this.state.jobIndex && <JobListItem key={i} job={e} reviewed={e.reviewed} handleClick={this.handleClick} navigator={this.props.navigator}/>
          ))}
         </ScrollView>
         }
         { jobScreenActiveTab === 'Active' &&
-        <ScrollView>
-         { favoredJobs.map( (e, i) => (
-            <JobListItem key={i} job={e} reviewed={e.reviewed} handleClick={this.handleClick} navigator={this.props.navigator}/>
-         ))}
-        </ScrollView>
+        <View style={{flex: 1, margin: 5}}>
+          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems:'center'}}>
+            <Text>Search: </Text>
+            <TextInput onChangeText={(text) => this.setState({searchTerm: text})} style={styles.inputStyle}></TextInput>
+          </View>
+          <ScrollView>
+          { 
+            favoredJobs.map( (e, i) => (
+              (e.company && e.company.indexOf(this.state.searchTerm)) !== -1 && <JobListItem key={i} job={e} reviewed={e.reviewed} handleClick={this.handleClick} navigator={this.props.navigator}/>
+            ))
+          }
+          </ScrollView>
+          <TouchableOpacity style={styles.createButtonStyle} onPress={() => this.createJobView()}>
+            <Text style={{color: '#ffffff', textAlign: 'center'}}>Add a Job</Text>
+          </TouchableOpacity>
+        </View>
         }
       </View>
     )
