@@ -7,6 +7,7 @@ import {
   Notifications,
 } from 'exponent';
 import {
+  NavigationProvider,
   StackNavigation,
   TabNavigation,
   TabNavigationItem,
@@ -25,8 +26,12 @@ import Store from '../data/store'
 
 @observer
 export default class RootNavigation extends React.Component {
+  constructor(props){
+    super(props);
+  }
 
   componentDidMount() {
+    console.log('current route: ', this.props.navigator)
     this._notificationSubscription = this._registerForPushNotifications();
   }
 
@@ -40,11 +45,13 @@ export default class RootNavigation extends React.Component {
       <TabNavigation
         tabBarHeight={56}
         initialTab="login">
-        <TabNavigationItem
+        
+        <TabNavigationItem 
           id="login"
           renderIcon={isSelected => this._renderIcon('user-o', isSelected)}>
           <StackNavigation initialRoute="login" />
         </TabNavigationItem>
+
 
         <TabNavigationItem
           id="home"

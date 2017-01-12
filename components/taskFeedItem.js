@@ -94,9 +94,9 @@ class TaskFeedItem extends Component {
     .then(function(response) {
       console.log('response from marking as complete', response)
         Alert.alert(completedText + nextTask);
-        that.setState({
-          completed_time: date
-        })
+        // that.setState({
+        //   completed_time: date
+        // })
 
         Store.updateActionCount('-');
         Store.updateHistoryCount();

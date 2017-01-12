@@ -27,9 +27,6 @@ async function signInWithGoogleAsync() {
     });
 
     if (result.type === 'success') {
-      // Store.setToken(result.accessToken);
-      // console.log('token: ', result.accessToken);
-      // context.navigator.props.push(route);
       return result;
     } else {
       return {cancelled: true};
@@ -45,7 +42,8 @@ export default class LoginScreen extends Component {
     navigationBar: {
       title: 'login',
       visible: false,
-    }
+    },
+
   }
   
   constructor(props){
@@ -64,10 +62,12 @@ export default class LoginScreen extends Component {
     that.setState({
       pending: true
     })
+    // this doens't work
+    // this.props.navigator.push('googlemodal')
+
     signInWithGoogleAsync()
     .then((res) => { 
-      console.log('response from google: ', res)
-      Store.setToken(res.accessToken);
+      Store.setIdToken(res.idToken);
       Store.setState('activeUser', res.user.givenName)
       that.props.navigator.push('home');
       setTimeout( () => {

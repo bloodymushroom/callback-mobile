@@ -73,8 +73,8 @@ export default class CreateActionModal extends Component {
           company: this.state.company,
           description: this.state.description,
           actionSource: this.state.actionSource,
-          JobId: this.state.JobId,
-          UserId: this.state.userId,
+          jobId: this.state.JobId,
+          userId: this.state.userId,
           contactId: this.state.contactId,
           scheduledTime: this.state.scheduledTime,
           completedTime: null

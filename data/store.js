@@ -4,7 +4,7 @@ import mobx from 'mobx';
 
 class ObservableStore {
   //access tokens
-  @observable activeToken;
+  @observable idToken;
 
   @observable users = data.fakeUsers;
   @observable activeUser = "Joosang";
@@ -31,20 +31,21 @@ class ObservableStore {
   @observable userParams = [];
   // new form items
   @observable newJob = {
-    jobTitle: null,
-    company: null,
-    url: null, 
-    address:    null,
-    city:       null,
-    state:      null,
-    snippet:    null,
-    source:     'user',
-    origin:     'user' , //'indeed', 'dice', user, etc.
-    id:         1
+    jobTitle: '',
+    company: '',
+    url: '',
+    address: '',
+    city: '',
+    state: '',
+    snippet: '',
+    source: 'user',
+    origin: 'user',
+    id: undefined
   }
 
-  @action setToken(token){
-    this.activeToken = token;
+  @action setIdToken(token){
+    console.log('set token')
+    this.idToken = token;
   }
 
   @action setState(key, value){
@@ -74,7 +75,6 @@ class ObservableStore {
       if (this[array][i].id === id) {
         this[array].splice(i, 1);
         console.log('i', i)
-        console.log('deleted', mobx.toJS(this[array]));
         break;
       } else {
         i++;
