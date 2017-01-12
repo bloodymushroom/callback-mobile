@@ -12,10 +12,12 @@ import CreateParamModal from '../components/createParamModal';
 import CreateJobModal from '../components/createJobModal';
 import CreateActionModal from '../components/createActionModal';
 import JobActionView from '../components/jobActionView';
+import LoginScreen from '../screens/LoginScreen';
 
 
 const Router = createRouter(() => ({
   // home: () => CreateParamModal,
+  login: () => LoginScreen,
   home: () => TaskScreen,
   jobinfomodal: () => JobInfoModal,
   createparammodal: () => CreateParamModal,

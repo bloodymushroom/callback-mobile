@@ -22,6 +22,7 @@ import {NavBar} from '../components/navBar'
 import TaskStatusItem from '../components/taskStatusItem'
 import TaskStatus from '../components/taskStatus'
 import TaskFeed from '../components/taskFeed'
+import HistoryFeed from '../components/historyFeed'
 
 // config
 
@@ -169,13 +170,13 @@ export default class TaskScreen extends Component {
 
   // add <NavBar /> component to view to see custom NavBar
   render() {
-    const {actions} = Store;
+    const {activeUser, actions} = Store;
     return(
       <View style={{flex: 1, flexDirection: 'column', marginTop: 5}}>
-        <TaskStatus user='Joosang' taskTypes={testTaskTypes} jobCount={this.state.jobCount} actionCount={this.state.actionCount} navigator={this.props.navigator}/>
+        <TaskStatus user={activeUser} taskTypes={testTaskTypes} jobCount={this.state.jobCount} actionCount={this.state.actionCount} navigator={this.props.navigator}/>
         <View style={{flex: 1}}>
-          <TaskFeed category='Tasks' tasks={actions}/>
-          <TaskFeed category='History' tasks={actions}/>
+          <TaskFeed category='Tasks'/>
+          <HistoryFeed category='History'/>
         </View>
       </View>
     )
