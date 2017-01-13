@@ -44,9 +44,10 @@ export default class CreateParamModal extends Component {
   }
 
   submitFields(){
+    const {activeUserId} = Store;
     var that = this;
     console.log('before send: ' , that.state)
-    fetch(config.host + '/parameter/1', 
+    fetch(config.host + '/parameter/' + activeUserId, 
       {
         method: 'POST',
         headers: {

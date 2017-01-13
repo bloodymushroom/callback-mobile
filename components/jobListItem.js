@@ -19,6 +19,8 @@ class JobOptionButtons extends Component {
     super(props);
 
     this.openJobActionView = this.openJobActionView.bind(this);
+    this.openDeleteJobModal = this.openDeleteJobModal.bind(this);
+
   }
 
   openJobActionView(){
@@ -26,6 +28,13 @@ class JobOptionButtons extends Component {
     this.props.navigator.push('jobactionview', {
       job: that.props.job
     });
+  }
+
+  openDeleteJobModal(){
+    var that = this;
+    this.props.navigator.push('deletejobmodal', {
+      job: that.props.job
+    });    
   }
 
   render(){
@@ -61,11 +70,12 @@ class JobOptionButtons extends Component {
           </TouchableOpacity>
           <Text style={styles.iconText}>Edit Job</Text>
         </View>
-        <View style={styles.iconStyle}><TouchableOpacity >
-          <Image 
-            style={styles.iconImage}
-            source={{uri: icons.x}} 
-          />
+        <View style={styles.iconStyle}>
+          <TouchableOpacity onPress={this.openDeleteJobModal}>
+            <Image 
+              style={styles.iconImage}
+              source={{uri: icons.x}} 
+            />
           </TouchableOpacity>
           <Text style={styles.iconText}>Delete Job</Text>
         </View>

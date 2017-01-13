@@ -8,6 +8,7 @@ class ObservableStore {
 
   @observable users = data.fakeUsers;
   @observable activeUser = "Joosang";
+  @observable activeUserId = 1;
   //actions
   @observable actions = [];
   @observable activeActions = [];
@@ -50,6 +51,7 @@ class ObservableStore {
 
   @action setState(key, value){
     console.log('set key')
+    console.log('this in setstate', this)
     this[key] = value;
   }
 
@@ -60,6 +62,7 @@ class ObservableStore {
   }
 
   @action changeJobScreenTab(tabName) {
+    console.log('this in changeJobScreenTab', this)
     this.jobScreenActiveTab = tabName;
     // console.log('jobs: ', this.jobs)
   }
@@ -136,6 +139,7 @@ class ObservableStore {
 
   @action sortActions(res) {
     var that = this;
+    console.log('this in sortActions', this)
     res.forEach(function(action) {
       // if(action.type) {
       //   if(!that.actionTypes[action.type]) {

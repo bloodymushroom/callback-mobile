@@ -26,9 +26,11 @@ export default class CreateActionModal extends Component {
   }
 
   constructor(props) {
-    super(props)
-    var today = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    console.log('today: ', today)
+    super(props);
+    const {activeUserId} = Store;
+
+    var today = new Date().toISOString().slice(0, 19).replace(/T/, ' ');
+    console.log('today: ', today);
 
     this.state = {
       id: null,
@@ -37,7 +39,7 @@ export default class CreateActionModal extends Component {
       description: null,
       actionSource: 'user',
       JobId: this.props.route.params.jobId,
-      userId: 1,
+      userId: activeUserId,
       contactId: 1,
       selected: null,
       scheduledTime: today
@@ -60,13 +62,16 @@ export default class CreateActionModal extends Component {
 
   submitFields(){
     console.log('new action: ', this.state)
+    const {idToken, activeUserId} = Store;
+
     var that = this;
 
     fetch(config.host + '/actions', 
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          credentials: idToken
         },
         body: JSON.stringify({
           type: this.state.type,
@@ -90,13 +95,16 @@ export default class CreateActionModal extends Component {
         })
         console.log('new action id:', response.id)
         console.log('new action job:', response.JobId)
-        console.log()
+        console.log('action pushed: ', that.state.scheduledTime)
         Store.push(that.state, 'actions');
         Store.push(that.state, 'activeActions');
         Store.updateActionCount();
         that.closeModal();
       })
-    that.closeModal();
+      .catch((err) => {
+        console.log('error in action submission: ', err);
+        // that.closeModal();
+      })
   }
 
   render() {
@@ -154,7 +162,7 @@ export default class CreateActionModal extends Component {
             style={{width: 200}}
             date={this.state.scheduledTime}
             mode="datetime"
-            format="YYYY-MM-DD HH:mm"
+            format="YYYY-MM-DD HH:mm:ss"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={{
@@ -169,7 +177,10 @@ export default class CreateActionModal extends Component {
               }
             }}
             minuteInterval={10}
-            onDateChange={(datetime) => {this.setState({scheduledTime: datetime});}}
+            onDateChange={(datetime) => {
+              console.log('datetime in datepicker: ', typeof datetime)
+              this.setState({scheduledTime: datetime});
+            }}
           />
           <Text>datetime: {this.state.scheduledTime}</Text>
         </View>

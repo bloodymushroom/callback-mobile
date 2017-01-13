@@ -80,13 +80,17 @@ class TaskFeedItem extends Component {
   }
 
   completeTask() {
+    const {idToken, activeUserId} = Store;
     var date = new Date();
     var completedText = "Completed task: " + this.state.action + '\n';
     var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
     var that = this;
 
-    fetch(config.host + '/actions/1/' + this.state.id, {
-      method: 'PUT'
+    fetch(config.host + '/actions/' + activeUserId + '/' + this.state.id, {
+      method: 'PUT',
+      headers: {
+        credentials: idToken     
+      }
     })
     .then((response) => {
         return response.json()
@@ -124,7 +128,7 @@ class TaskFeedItem extends Component {
   setItemStyle(time, completed) {
     // yellow border if due today
 
-    if (completed !== null) {      
+    if (completed) {      
       this.setState ({
         borderColor: '#a5a2a4',
         backgroundColor: '#ffffff'
@@ -153,7 +157,7 @@ class TaskFeedItem extends Component {
     var displayDate;
 
     // use diff to determine the display date in the task item
-    if (this.state.completed_time !== null) {
+    if (this.state.completed_time) {
       var completedDate = moment(this.state.completed_time)
       diff = completedDate.diff(now, 'days');
       displayDate = diff === 0? 'today' : diff * -1 + ' days ago'; 

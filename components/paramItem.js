@@ -4,6 +4,10 @@ import {
 } from 'react-native'
 import config from '../constants/Routes'
 
+// Stores
+import mobx from 'mobx';
+import {observer} from 'mobx-react/native'
+import Store from '../data/store'
 
 var icons = {
   x: 'https://cdn0.iconfinder.com/data/icons/web/512/e52-128.png',
@@ -22,7 +26,8 @@ export default class ParamItem extends Component {
   }
 
   deleteParam(){
-    fetch(config.host + '/parameter/' + this.props.param.id + '/user/1)',
+    const {activeUserId} = Store;
+    fetch(config.host + '/parameter/' + this.props.param.id + '/user/' + activeUserId,
     {
       method: 'DELETE'
     })

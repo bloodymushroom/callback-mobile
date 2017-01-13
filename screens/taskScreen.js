@@ -105,11 +105,11 @@ export default class TaskScreen extends Component {
   }
 
   componentWillMount() {
-    const {idToken} = Store;
+    const {idToken, activeUserId} = Store;
     console.log('idToken', idToken)
     var that = this;
     // get actions
-    fetch(config.host+ '/actions/1', 
+    fetch(config.host+ '/actions/' + activeUserId, 
     {
       headers: {
         credentials: idToken
@@ -127,7 +127,7 @@ export default class TaskScreen extends Component {
       });
 
       // set new jobs
-    fetch(config.host + '/jobs/1/new', {
+    fetch(config.host + '/jobs/' + activeUserId + '/new', {
       headers: {
         credentials: Store.idToken
       }
@@ -147,7 +147,7 @@ export default class TaskScreen extends Component {
       });
 
     // set favored jobs {
-    fetch(config.host + '/jobs/1/favored', {
+    fetch(config.host + '/jobs/' + activeUserId + '/favored', {
       headers: {
         credentials: Store.idToken
       }
@@ -164,7 +164,7 @@ export default class TaskScreen extends Component {
       })
 
     // get params for user {
-    fetch(config.host + '/parameter/1', {
+    fetch(config.host + '/parameter/' + activeUserId, {
       headers: {
         credentials: Store.idToken
       }
@@ -175,8 +175,8 @@ export default class TaskScreen extends Component {
       .then((responseJson) => {
         // update
         // console.log('parameters: ', responseJson[0])
-        // Store.updateUserParams(responseJson.Parameters)
-        Store.updateUserParams(responseJson[0].Parameters)
+        Store.updateUserParams(responseJson.Parameters)
+        // Store.updateUserParams(responseJson[0].Parameters)
       })
       .catch((error) => {
         console.error(error);

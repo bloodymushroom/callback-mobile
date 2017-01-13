@@ -66,12 +66,12 @@ class JobListScreen extends Component {
   }
 
   handleClick(button, jobId, job) {
-    const {jobs} = Store;
+    const {jobs, activeUserId} = Store;
 
     // save job and generate next action
     if (button === 'favor') {
       console.log('hello')
-      fetch('http://jobz.mooo.com:5000/users/1/jobs/' + jobId, {
+      fetch('http://jobz.mooo.com:5000/users/' + activeUserId +'/jobs/' + jobId, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ class JobListScreen extends Component {
 
     if (button === 'unfavor') {
       // set job as unfavored
-      fetch('http://jobz.mooo.com:5000/users/1/jobs/' + jobId, {
+      fetch('http://jobz.mooo.com:5000/users/' + activeUserId + '/jobs/' + jobId, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

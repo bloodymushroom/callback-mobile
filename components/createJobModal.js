@@ -25,6 +25,7 @@ export default class CreateJobModal extends Component {
 
   constructor(props) {
     super(props)
+    const {activeUserId} = Store;
 
     this.state = {
       jobTitle:   null,
@@ -35,7 +36,7 @@ export default class CreateJobModal extends Component {
       state:      null,
       snippet:    null,
       origin:     'user',
-      userid:     1
+      userid:     activeUserId,
     }
 
     this.closeModal = this.closeModal.bind(this);

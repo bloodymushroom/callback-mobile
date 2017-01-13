@@ -8,6 +8,7 @@ import Store from '../data/store'
 
 // import simpleAuthClient from 'react-native-simple-auth';
 import secrets from '../auth/secrets';
+import config from '../constants/Routes'
 
 var icons = {
   loading: 'https://am.jpmorgan.com/baurl-gim/image/ajax-loader.gif',
@@ -69,13 +70,26 @@ export default class LoginScreen extends Component {
     .then((res) => { 
       Store.setIdToken(res.idToken);
       Store.setState('activeUser', res.user.givenName)
-      that.props.navigator.push('home');
-      setTimeout( () => {
-        that.setState({
-          pending: false,
-          loginFailed: false
-        })
-      }, 500);
+
+      fetch(config.host + '/user', {
+        headers: {
+          credentials: res.idToken
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        Store.setState('activeUserId', response.id)
+        console.log('user', Store.activeUserId);
+        that.props.navigator.push('home');
+        setTimeout( () => {
+          that.setState({
+            pending: false,
+            loginFailed: false
+          })
+        }, 500);
+      })
+      .catch((err) => console.log(err))
+
     })
     .catch((err) => {
       that.setState({
