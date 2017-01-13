@@ -28,15 +28,17 @@ export default class CreateJobModal extends Component {
     const {activeUserId} = Store;
 
     this.state = {
-      jobTitle:   null,
-      company:    null,
-      url:        null, 
-      address:    null,
-      city:       null,
-      state:      null,
-      snippet:    null,
-      origin:     'user',
-      userid:     activeUserId,
+      userid: activeUserId,
+      id: activeUserId,
+      jobTitle: null,
+      company: null,
+      url: null,
+      address: null,
+      city: null,
+      state: null,
+      snippet: null,
+      source: 'user',
+      origin: 'user'
     }
 
     this.closeModal = this.closeModal.bind(this);
@@ -51,43 +53,30 @@ export default class CreateJobModal extends Component {
     const {newJob} = Store;
     var newJobJS = mobx.toJS(newJob);
     var that = this;
+
     console.log('before send: ' , that.state)
-    fetch(config.host + '/jobs', 
+    fetch(config.host + '/job', 
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         // need to fix - not working
-        body: JSON.stringify({
-          id: 1,
-          jobTitle: 'testfromPhone',
-          company: 'Test',
-          snippet: 'testestest'
-        })
-        // {
-          // jobTitle:   this.state.jobTitle,
-          // company:    this.state.company,
-          // url:        this.state.url, 
-          // address:    this.state.address,
-          // city:       this.state.city,
-          // state:      this.state.state,
-          // snippet:    this.state.snippet,
-          // origin:     this.state.origin,
-          // id:         this.state.userid 
-        // }
+        body: JSON.stringify(that.state)
       })
       .then((response) => {
-        console.log('added a job', newJobJS)
-        Store.push(newJobJS, 'favoredJobs')
+        console.log('added a job', that.state)
+        Store.push(that.state, 'favoredJobs')
         // Store.push(that.state, 'userParams');
         that.closeModal();
       })
+      .catch(err => console.log(err))
     // that.closeModal();
   }
 
   render() {
     const {newJob} = Store;
+    var that = this;
     var styles = {
       inputStyle: {
         flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
@@ -108,14 +97,11 @@ export default class CreateJobModal extends Component {
             />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>ID: {this.props.route.params.id}</Text>
-        </View>
         <View style={{flexDirection: 'row'}}>
           <Text>Job Title: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'jobTitle', text)
+              that.setState({ jobTitle: text})
             }} 
           />
         </View>
@@ -123,7 +109,7 @@ export default class CreateJobModal extends Component {
           <Text>Company: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'company', text)
+              that.setState({ company: text})
             }} 
           />        
         </View>
@@ -131,7 +117,7 @@ export default class CreateJobModal extends Component {
           <Text>Url: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'url', text)
+              that.setState({ url: text})
             }} 
           />        
         </View>
@@ -139,7 +125,7 @@ export default class CreateJobModal extends Component {
           <Text>Address: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'address', text)
+              that.setState({ address: text})
             }} 
           />        
         </View>
@@ -147,13 +133,13 @@ export default class CreateJobModal extends Component {
           <Text>City: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'city', text)
+              that.setState({ city: text})
             }} 
           />  
           <Text>State: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'state', text)
+              that.setState({ state: text})
             }} 
           />        
         </View>
@@ -161,7 +147,7 @@ export default class CreateJobModal extends Component {
           <Text>Description: </Text>
           <TextInput style={styles.inputStyle} 
             onChangeText={(text) => {
-              Store.updateForm('newJob', 'snippet', text)
+              that.setState({ snippet: text})
             }} 
           />        
         </View>

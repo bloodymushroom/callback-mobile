@@ -26,10 +26,13 @@ export default class ParamItem extends Component {
   }
 
   deleteParam(){
-    const {activeUserId} = Store;
+    const {activeUserId, idToken} = Store;
     fetch(config.host + '/parameter/' + this.props.param.id + '/user/' + activeUserId,
     {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        credentials: idToken   
+      }
     })
       .then((response) => {
         console.log('deleted!')

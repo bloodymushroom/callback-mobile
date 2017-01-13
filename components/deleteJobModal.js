@@ -6,6 +6,12 @@ import {
 import { NavigationStyles } from '@exponent/ex-navigation';
 
 //dropdown
+import DropDown, {
+  Select,
+  Option,
+  OptionList,
+} from 'react-native-selectme';
+import DropDown2 from './dropDown'
 
 // store
 import mobx from 'mobx';
@@ -29,27 +35,32 @@ export default class DeleteJobModal extends Component {
     super(props)
 
     this.state = {
-      jobTitle:   null,
-      company:    null,
-      url:        null, 
-      address:    null,
-      city:       null,
-      state:      null,
-      snippet:    null,
-      origin:     'user',
-      userid:     1
+      status: 'favored'
     }
 
     this.closeModal = this.closeModal.bind(this);
+    this._setJobState = this._setJobState.bind(this);
   }
 
   closeModal() {
     this.props.navigator.pop();
   }
 
+  _getOptionsList() {
+    return this.refs['OPTIONLIST'];
+  }
+
+  _setJobState(newStatus){
+    console.log('triggered');
+    this.setState({
+      status: newStatus
+    })
+  }
+
   submitFields(){
     const {newJob} = Store;
     var newJobJS = mobx.toJS(newJob);
+
     var that = this;
     console.log('before send: ' , that.state)
     fetch(config.host + '/jobs', 
@@ -73,6 +84,15 @@ export default class DeleteJobModal extends Component {
 
   render() {
     const {newJob} = Store;
+    var deleteReasons = [
+      'No longer interested',
+      'No longer posted',
+      'No response from employer',
+      'Application rejected',
+      'Re-apply at a later time',
+      'Other'
+    ]
+
     var styles = {
       inputStyle: {
         flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
@@ -111,7 +131,8 @@ export default class DeleteJobModal extends Component {
           <Text>Company: {this.props.route.params.job.jobTitle}</Text>      
         </View>
         <Text>Please select a reason for deleting this job:</Text>
-
+        <DropDown2 options={deleteReasons} setJobState={this._setJobState}/>
+        <Text>State: {this.state.status}</Text>
         <TouchableOpacity style={styles.noButtonStyle}>
           <Text style={{textAlign: 'center'}}>Remove this job</Text>
         </TouchableOpacity>
@@ -119,3 +140,16 @@ export default class DeleteJobModal extends Component {
     )
   }
 }
+        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //   <Select
+        //     width={250} ref='SELECT1'
+        //     optionListRef={this._getOptionsList.bind(this)}
+        //     defaultValue="Select..."
+        //     onSelect={this._setJobState.bind(this)}
+        //     >
+        //     <Option style={{alignItems:'center'}}>Test</Option>
+        //     <Option>Hello</Option>
+        //   </Select>
+
+        //   <OptionList ref="OPTIONLIST"/>
+        // </View>

@@ -160,7 +160,7 @@ class TaskFeedItem extends Component {
     if (this.state.completed_time) {
       var completedDate = moment(this.state.completed_time)
       diff = completedDate.diff(now, 'days');
-      displayDate = diff === 0? 'today' : diff * -1 + ' days ago'; 
+      displayDate = diff === 0? 'today' : (diff * -1 === 1? '1 day ago': diff * -1 + ' days ago'); 
     } else {
       if (diff < 0) {
         displayDate = 'over due';

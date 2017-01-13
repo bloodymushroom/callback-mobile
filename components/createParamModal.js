@@ -44,14 +44,15 @@ export default class CreateParamModal extends Component {
   }
 
   submitFields(){
-    const {activeUserId} = Store;
+    const {activeUserId, idToken} = Store;
     var that = this;
     console.log('before send: ' , that.state)
     fetch(config.host + '/parameter/' + activeUserId, 
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          credentials: idToken
         },
         body: JSON.stringify({
           descriptor: that.state.descriptor,
