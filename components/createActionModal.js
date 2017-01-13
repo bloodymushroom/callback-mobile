@@ -123,10 +123,10 @@ export default class CreateActionModal extends Component {
 
     var styles = {
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1
+        height: 40, borderColor:"#a5a2a4", borderWidth: 1, padding: 2
       },
       contentWrapperStyle: {
-        flex:1, margin: 10, marginTop: 20, flexDirection: 'row'
+        margin: 10, marginTop: 20, flexDirection: 'row'
       },
       labelStyle: {
         flex:1, alignItems: 'flex-start'
@@ -162,62 +162,71 @@ export default class CreateActionModal extends Component {
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job Title:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.title}</Text>
+            </View>
+          </View>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
               <Text style={{fontSize: 15}}>Company:</Text>
             </View>
             <View style={styles.contentStyle}>
               <Text style={{fontSize: 15}}>{this.props.route.params.company}</Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text>Company: {this.props.route.params.company}</Text>       
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Action Type:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <DropDown2 height={100} options={Object.keys(actionTypes)} setThisState={this.setType}/>
+            </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text>Title: {this.props.route.params.title}</Text>       
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Action:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({description: text}) 
+                }} 
+              /> 
+            </View>
           </View>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <View>
-            <Text>Action Type: </Text>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Scheduled Time:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <DatePicker
+                style={{width: 200}}
+                date={this.state.scheduledTime}
+                mode="datetime"
+                format="YYYY-MM-DD HH:mm:ss"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0
+                  },
+                  dateInput: {
+                    marginLeft: 36
+                  }
+                }}
+                minuteInterval={10}
+                onDateChange={(datetime) => {
+                  console.log('datetime in datepicker: ', typeof datetime)
+                  this.setState({scheduledTime: datetime});
+                }}
+              />
+            </View>
           </View>
-          <View>
-            <DropDown2 options={Object.keys(actionTypes)} setThisState={this.setType}/>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Scheduled Time:</Text>
-          <DatePicker
-            style={{width: 200}}
-            date={this.state.scheduledTime}
-            mode="datetime"
-            format="YYYY-MM-DD HH:mm:ss"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
-            minuteInterval={10}
-            onDateChange={(datetime) => {
-              console.log('datetime in datepicker: ', typeof datetime)
-              this.setState({scheduledTime: datetime});
-            }}
-          />
-          <Text>datetime: {this.state.scheduledTime}</Text>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Description: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({description: text}) 
-            }} 
-          />        
         </View>
         <TouchableOpacity style={styles.createButtonStyle} onPress={this.submitFields}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Submit</Text>

@@ -79,7 +79,17 @@ export default class CreateJobModal extends Component {
     var that = this;
     var styles = {
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
+        height: 40, borderColor:"#a5a2a4", borderWidth: 1
+      },
+      contentWrapperStyle: {
+        flex:1, margin: 5, marginTop: 10, flexDirection: 'row'
+      },
+      labelStyle: {
+        flex:1, alignItems: 'flex-start'
+      },
+      contentStyle: {
+        flex:3, marginLeft: 10
+      },
       createButtonStyle: {
         backgroundColor: '#4286f4',
         borderRadius: 25,
@@ -88,68 +98,104 @@ export default class CreateJobModal extends Component {
       }
     }
     return (
-      <View style={{flex:1, alignItems:'center', margin: 10}}>
-        <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={this.closeModal} style={{margin: 5, marginRight:10, width:20}}>
+      <View style={{flex:1, margin: 10}}>
+        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
               source={{uri: x}}
             />
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Job Title: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ jobTitle: text})
-            }} 
-          />
+        <View style={{flex:1, alignItems: 'center', flexDirection: 'column'}}>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job Title:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({jobTitle: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Company:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({company: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
+
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Website/Link:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({url: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Address:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({address: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
+        <View style={styles.contentWrapperStyle}>
+          <View style={{flex:3, flexDirection: 'row', marginRight: 10}}>
+            <Text>City: </Text>
+            <TextInput style={styles.inputStyle} flex={1}
+              onChangeText={(text) => {
+                that.setState({ city: text})
+              }} 
+            />  
+          </View>
+          <View style={{flex:1, flexDirection: 'row'}}>
+            <Text>State: </Text>
+            <TextInput style={styles.inputStyle} flex={1}
+              onChangeText={(text) => {
+                that.setState({ state: text})
+              }} 
+            />
+          </View>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Company: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ company: text})
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Url: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ url: text})
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Address: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ address: text})
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>City: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ city: text})
-            }} 
-          />  
-          <Text>State: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ state: text})
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Description: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              that.setState({ snippet: text})
-            }} 
-          />        
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Description:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({snippet: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
         </View>
         <TouchableOpacity style={styles.createButtonStyle} onPress={this.submitFields}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Submit</Text>
