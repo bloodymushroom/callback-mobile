@@ -15,6 +15,8 @@ import mobx from 'mobx';
 import {observer} from 'mobx-react/native'
 import Store from '../data/store'
 
+//config
+import config from '../constants/Routes'
 
 var NothingToReview = () => (
   <View style={{flex: 1, flexDirection: 'column'}}>
@@ -66,49 +68,31 @@ class JobListScreen extends Component {
   }
 
   handleClick(button, jobId, job) {
-    const {jobs, activeUserId} = Store;
+    const {jobs, activeUserId, idToken} = Store;
 
-    // save job and generate next action
-    if (button === 'favor') {
-      console.log('hello')
-      fetch('http://jobz.mooo.com:5000/users/' + activeUserId +'/jobs/' + jobId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          status: 'favored'
-        })
+    fetch( config.host + '/users/' + activeUserId +'/jobs/' + jobId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        credentials: idToken
+      },
+      body: JSON.stringify({
+        status: button
       })
-      .then((response) => {
+    })
+    .then((response) => {
+      if (button === 'favored') {
         Store.addFavoredJob(job);
         Alert.alert('Added job: ' + job.jobTitle + ', ' + job.company)
-        console.log('success')
-      })
-    }
+      } else {
+        console.log('removed job: ' + job.jobTitle + ', ' + job.company)          
+      }
 
-    if (button === 'unfavor') {
-      // set job as unfavored
-      fetch('http://jobz.mooo.com:5000/users/' + activeUserId + '/jobs/' + jobId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          status: 'unfavored'
-        })
-      })
-      .then((response) => {
-        console.log('removed')
-        Alert.alert('Removed job: ' + job.jobTitle + ', ' + job.company)
-      })
-    }
+    })
 
     this.setState({
       jobIndex: this.state.jobIndex + 1
     })
-
-    console.log('num: ', this.state.jobIndex, jobs.length)
   }
 
   render() {

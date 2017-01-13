@@ -7,6 +7,9 @@ import {
 import { NavigationStyles } from '@exponent/ex-navigation';
 import DatePicker from 'react-native-datepicker'
 
+// components
+import DropDown2 from './dropDown'
+
 // state management
 import mobx from 'mobx';
 import {observer} from 'mobx-react/native'
@@ -47,6 +50,7 @@ export default class CreateActionModal extends Component {
 
     this.closeModal = this.closeModal.bind(this);
     this.submitFields = this.submitFields.bind(this);
+    this.setType = this.setType.bind(this);
   }
 
   closeModal() {
@@ -59,6 +63,13 @@ export default class CreateActionModal extends Component {
     this.setState(newState);
     this.setState({type: value})
   };
+
+  setType(option) {
+    var that = this;
+    that.setState({
+      type: option
+    })
+  }
 
   submitFields(){
     console.log('new action: ', this.state)
@@ -112,7 +123,17 @@ export default class CreateActionModal extends Component {
 
     var styles = {
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
+        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1
+      },
+      contentWrapperStyle: {
+        flex:1, margin: 10, marginTop: 20, flexDirection: 'row'
+      },
+      labelStyle: {
+        flex:1, alignItems: 'flex-start'
+      },
+      contentStyle: {
+        flex:3, marginLeft: 10
+      },
       createButtonStyle: {
         backgroundColor: '#4286f4',
         borderRadius: 25,
@@ -121,39 +142,45 @@ export default class CreateActionModal extends Component {
       }
     }
     return (
-      <View style={{flex:1, alignItems:'center'}}>
-        <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={this.closeModal} style={{margin: 5, marginRight:10, width:20}}>
+      <View style={{flex:1, margin: 10}}>
+        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
               source={{uri: x}}
             />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>ID: {this.props.route.params.jobId}</Text>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Company: {this.props.route.params.company}</Text>       
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Title: {this.props.route.params.title}</Text>       
+        <View style={{flex: 1, alignItems: 'center', flexDirection: 'column'}}>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job ID:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.jobId}</Text>
+            </View>
+          </View>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Company:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.company}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text>Company: {this.props.route.params.company}</Text>       
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text>Title: {this.props.route.params.title}</Text>       
+          </View>
         </View>
         <View style={{flexDirection: 'row'}}>
           <View>
             <Text>Action Type: </Text>
           </View>
           <View>
-            <Picker style={{width: 100}} mode='dropdown'
-              selectedValue={this.state.selected}
-              onValueChange={this.onValueChange.bind(this, 'selected')}
-            >
-            {
-              Object.keys(actionTypes).map((e, i) => (
-                <Picker.Item key={i} label={e} value={e}>Hi1</Picker.Item>        
-              ))
-            }
-            </Picker>
+            <DropDown2 options={Object.keys(actionTypes)} setThisState={this.setType}/>
           </View>
         </View>
         <View style={{flexDirection: 'row'}}>

@@ -65,7 +65,7 @@ export default class ParamsScreen extends Component {
       </View>
       <ScrollView style={{margin: 5}}>
         {
-          userParams.map((e, i) => (
+          userParams && userParams.map((e, i) => (
             <ParamItem key={i} param={e} />
           ))
         }

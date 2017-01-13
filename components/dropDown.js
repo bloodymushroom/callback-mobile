@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity
+  View, Text, TouchableOpacity, ScrollView
 } from 'react-native'
 
 export default class DropDown2 extends Component {
@@ -8,8 +8,9 @@ export default class DropDown2 extends Component {
     super(props);
 
     this.state = {
-      activeSelection: 'dropdown',
-      active: false
+      activeSelection: '',
+      active: false,
+      height: this.props.height || 200
     }
 
     this._activate = this._activate.bind(this);
@@ -43,7 +44,7 @@ export default class DropDown2 extends Component {
     var options = ['Test1', 'Test2', 'Test3', 'Test4']
     var styles = {
       container: {
-        borderWidth: 1, borderColor: '#a5a2a4', width: 300
+        borderWidth: 1, borderColor: '#a5a2a4', width: 250
       },
       entry: {      
         margin: 10
@@ -51,14 +52,24 @@ export default class DropDown2 extends Component {
     }
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.entry} onPress={() => that._activate(that.state.activeSelection, that.props.setJobState)}><Text>{that.state.activeSelection}</Text></TouchableOpacity>
+        { this.state.activeSelection !== '' &&
+          <TouchableOpacity style={styles.entry} onPress={() => that._activate(that.state.activeSelection, that.props.setThisState)}><Text>{that.state.activeSelection}</Text></TouchableOpacity>
+        }
+        { this.state.activeSelection === '' && 
+        <TouchableOpacity style={styles.entry} onPress={() => that._activate(that.state.activeSelection, that.props.setThisState)}>
+          <Text style={{fontStyle: 'italic'}}>Click to select...</Text>
+        </TouchableOpacity>
+        }
+
         {
           that.state.active && 
-          that.props.options.map( (e, i) => (
-            <TouchableOpacity key={i} style={styles.entry} onPress={() => that._activate(e, that.props.setJobState)}>
-              <Text>{e}</Text>
-            </TouchableOpacity>
-          ))
+          <ScrollView style={{height: this.state.height}}>
+            {that.props.options.map( (e, i) => (
+              <TouchableOpacity key={i} style={styles.entry} onPress={() => that._activate(e, that.props.setThisState)}>
+                <Text>{e}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         }
       </View>
     )

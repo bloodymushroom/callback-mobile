@@ -165,10 +165,10 @@ export default class JobListItem extends Component {
       return (
         <View style={styles.jobItemStyle}>
           <JobInfo job={this.props.job}/>
-          <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('favor', this.props.job.id, this.props.job)}>
+          <TouchableOpacity style={styles.yesButtonStyle} onPress={() => this.props.handleClick('favored', this.props.job.id, this.props.job)}>
             <Text style={{color: '#ffffff', textAlign: 'center'}}>Save Job</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.noButtonStyle} onPress={() => this.props.handleClick('unfavor', this.props.job.id, this.props.job)}>
+          <TouchableOpacity style={styles.noButtonStyle} onPress={() => this.props.handleClick('unfavored', this.props.job.id, this.props.job)}>
             <Text style={{textAlign: 'center'}}>Not Interested</Text>
           </TouchableOpacity>
         </View>

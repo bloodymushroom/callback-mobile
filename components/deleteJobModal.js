@@ -58,7 +58,7 @@ export default class DeleteJobModal extends Component {
   }
 
   submitFields(){
-    const {newJob} = Store;
+    const {newJob, idToken} = Store;
     var newJobJS = mobx.toJS(newJob);
 
     var that = this;
@@ -67,7 +67,9 @@ export default class DeleteJobModal extends Component {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          credentials: idToken
+
         },
         // need to fix - not working
         body: JSON.stringify({
@@ -95,7 +97,17 @@ export default class DeleteJobModal extends Component {
 
     var styles = {
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
+        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1
+      },
+      contentWrapperStyle: {
+        flex:1, margin: 10, marginTop: 20, flexDirection: 'row'
+      },
+      labelStyle: {
+        flex:1, alignItems: 'flex-start'
+      },
+      contentStyle: {
+        flex:3, marginLeft: 10
+      },
       // createButtonStyle: {
       //   backgroundColor: '#4286f4',
       //   borderRadius: 25,
@@ -112,30 +124,54 @@ export default class DeleteJobModal extends Component {
       }
     }
     return (
-      <View style={{flex:1, alignItems:'center', margin: 10}}>
-        <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={this.closeModal} style={{margin: 5, marginRight:10, width:20}}>
+      <View style={{flex:1, margin: 10}}>
+        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
               source={{uri: x}}
             />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>ID: {this.props.route.params.job.id}</Text>
+        <View style={{flex:1, alignItems: 'center', flexDirection: 'column'}}>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job ID:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.job.id}</Text>
+            </View>
+          </View>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job Title:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.job.jobTitle}</Text>
+            </View>
+          </View>
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Company:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <Text style={{fontSize: 15}}>{this.props.route.params.job.company}</Text>
+            </View>
+          </View>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Job Title: {this.props.route.params.job.jobTitle}</Text>
+        <View style={{flex:2, flexDirection: 'column', justifyContent: 'flex-start', margin:10}}>
+          <View style={{marginBottom: 10}}>
+            <Text style={{fontSize:15, fontWeight:'bold'}}>Please select a reason for deleting this job:</Text>
+          </View>
+          <DropDown2 options={deleteReasons} setThisState={this._setJobState}/>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Company: {this.props.route.params.job.jobTitle}</Text>      
-        </View>
-        <Text>Please select a reason for deleting this job:</Text>
-        <DropDown2 options={deleteReasons} setJobState={this._setJobState}/>
+
         <Text>State: {this.state.status}</Text>
-        <TouchableOpacity style={styles.noButtonStyle}>
-          <Text style={{textAlign: 'center'}}>Remove this job</Text>
-        </TouchableOpacity>
+        <View style={{justifyContent: 'flex-end'}}>
+          <TouchableOpacity style={styles.noButtonStyle}>
+            <Text style={{textAlign: 'center'}}>Remove this job</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
