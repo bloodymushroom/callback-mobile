@@ -107,7 +107,12 @@ export default class CreateJobModal extends Component {
             />
           </TouchableOpacity>
         </View>
+
+
         <View style={{flex:1, alignItems: 'center', flexDirection: 'column'}}>
+          <View style={styles.contentWrapperStyle}>
+            <Text style={{fontSize: 20}}>Create Job</Text>
+          </View> 
 
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>

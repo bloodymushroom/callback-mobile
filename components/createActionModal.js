@@ -151,6 +151,10 @@ export default class CreateActionModal extends Component {
             />
           </TouchableOpacity>
         </View>
+        <View style={styles.contentWrapperStyle}>
+          <Text style={{fontSize: 20}}>Create Action</Text>
+        </View> 
+
         <View style={{flex: 1, alignItems: 'center', flexDirection: 'column'}}>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>

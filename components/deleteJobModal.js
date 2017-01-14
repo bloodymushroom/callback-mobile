@@ -40,6 +40,7 @@ export default class DeleteJobModal extends Component {
 
     this.closeModal = this.closeModal.bind(this);
     this._setJobState = this._setJobState.bind(this);
+    this.deleteJob = this.deleteJob.bind(this);
   }
 
   closeModal() {
@@ -82,6 +83,37 @@ export default class DeleteJobModal extends Component {
       .then((response) => {
         that.closeModal();
       })
+      .catch((err) => {
+        console.log(err);
+        that.closeModal();
+      })
+  }
+
+  deleteJob() {
+    var that = this;
+    const {jobs, activeUserId, idToken} = Store;
+    var jobId = this.props.route.params.job.id;
+    console.log('jobid:', jobId)
+    // need to change unfavored to dropdown status
+    fetch( config.host + '/users/' + activeUserId +'/jobs/' + jobId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        credentials: idToken
+      },
+      body: JSON.stringify({
+        status: 'rejected'
+      })
+    })
+    .then((response) => {
+      console.log('removed job')
+      Store.deleteJob(jobId);
+      that.closeModal();
+    })
+    .catch((err) => {
+      console.log('error')
+      that.closeModal();
+    })
   }
 
   render() {
@@ -108,12 +140,6 @@ export default class DeleteJobModal extends Component {
       contentStyle: {
         flex:3, marginLeft: 10
       },
-      // createButtonStyle: {
-      //   backgroundColor: '#4286f4',
-      //   borderRadius: 25,
-      //   margin: 5,
-      //   padding: 10
-      // }
       noButtonStyle: {
         borderColor:"#A92324",
         borderWidth: 2,
@@ -133,7 +159,11 @@ export default class DeleteJobModal extends Component {
             />
           </TouchableOpacity>
         </View>
+
         <View style={{flex:1, alignItems: 'center', flexDirection: 'column'}}>
+          <View style={styles.contentWrapperStyle}>
+            <Text style={{fontSize: 20}}>Delete Job</Text>
+          </View> 
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
               <Text style={{fontSize: 15}}>Job ID:</Text>
@@ -159,7 +189,7 @@ export default class DeleteJobModal extends Component {
             </View>
           </View>
         </View>
-        <View style={{flex:2, flexDirection: 'column', justifyContent: 'flex-start', margin:10}}>
+        <View style={{flex:2, flexDirection: 'column', justifyContent: 'flex-start', margin:10, marginTop: 20}}>
           <View style={{marginBottom: 10}}>
             <Text style={{fontSize:15, fontWeight:'bold'}}>Please select a reason for deleting this job:</Text>
           </View>
@@ -168,7 +198,7 @@ export default class DeleteJobModal extends Component {
 
         <Text>State: {this.state.status}</Text>
         <View style={{justifyContent: 'flex-end'}}>
-          <TouchableOpacity style={styles.noButtonStyle}>
+          <TouchableOpacity onPress={this.deleteJob} style={styles.noButtonStyle}>
             <Text style={{textAlign: 'center'}}>Remove this job</Text>
           </TouchableOpacity>
         </View>

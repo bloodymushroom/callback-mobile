@@ -98,6 +98,30 @@ class ObservableStore {
     }
   }
 
+  // delete job and all actions associated with job
+  @action deleteJob(id) {
+    this.deleteFromArray(id, 'favoredJobs');
+
+    var i = 0;
+    // while(i < this.actions.length) {
+    //   if (this.actions[i].JobId === id) {
+    //     this.actions.splice(i, 1);
+    //     console.log('i', i)
+    //   } else {
+    //     i++;
+    //   }
+    // }
+    while(i < this.activeActions.length) {
+      if (this.activeActions[i].JobId === id) {
+        this.activeActions.splice(i, 1);
+        this.activeActionCount--;
+        console.log('i', i, 'jobId:', id)
+      } else {
+        i++;
+      }
+    }
+  }
+
   // update user's favored jobs
   @action updateFavoredJobs(jobs) {
     this.favoredJobs = jobs;

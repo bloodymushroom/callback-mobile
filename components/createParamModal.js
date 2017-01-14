@@ -70,9 +70,20 @@ export default class CreateParamModal extends Component {
   }
 
   render() {
+    var that = this;
     var styles = {
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1},
+        height: 40, borderColor:"#a5a2a4", borderWidth: 1
+      },
+      contentWrapperStyle: {
+        margin: 5, marginTop: 10, flexDirection: 'row'
+      },
+      labelStyle: {
+        flex:1, alignItems: 'flex-start'
+      },
+      contentStyle: {
+        flex:3, marginLeft: 10
+      },      
       createButtonStyle: {
         backgroundColor: '#4286f4',
         borderRadius: 25,
@@ -81,60 +92,86 @@ export default class CreateParamModal extends Component {
       }
     }
     return (
-      <View style={{flex:1, alignItems:'center'}}>
-        <View style={{alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={this.closeModal} style={{margin: 5, marginRight:10, width:20}}>
+      <View style={{flex:1, margin: 10}}>
+        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
               source={{uri: x}}
             />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>ID: {this.props.route.params.id}</Text>
+        <View style={styles.contentWrapperStyle}>
+          <Text style={{fontSize: 20}}>New Job Search Parameter</Text>
+        </View> 
+
+        <View style={{flex:1, marginTop: 20, alignItems: 'center', flexDirection: 'column'}}>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job Type:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({descriptor: text}) 
+                }} 
+              /> 
+            </View>
+          </View>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={{flex:3, flexDirection: 'row', marginRight: 10}}>
+              <Text>City: </Text>
+              <TextInput style={styles.inputStyle} flex={1}
+                onChangeText={(text) => {
+                  that.setState({ city: text})
+                }} 
+              />  
+            </View>
+            <View style={{flex:1, flexDirection: 'row'}}>
+              <Text>State: </Text>
+              <TextInput style={styles.inputStyle} flex={1}
+                onChangeText={(text) => {
+                  that.setState({ state: text})
+                }} 
+              />
+            </View>
+          </View>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Job Radius:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({radius: text}) 
+                }} 
+              /> 
+            </View>
+            <View style={{alignSelf: 'center', marginLeft: 10, width: 70}}>
+              <Text>(miles)</Text>
+            </View>
+          </View>
+
+          <View style={styles.contentWrapperStyle}>
+            <View style={styles.labelStyle}>
+              <Text style={{fontSize: 15}}>Zipcode:</Text>
+            </View>
+            <View style={styles.contentStyle}>
+              <TextInput style={styles.inputStyle} 
+                onChangeText={(text) => {
+                  this.setState({zip: text}) 
+                }} 
+              /> 
+            </View>
+            <View style={{alignSelf: 'center', marginLeft: 10, width: 70}}>
+              <Text>(optional)</Text>
+            </View>
+          </View>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Job Type: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({descriptor: text}) 
-            }} 
-          />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>City: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({city: text}) 
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>State: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({'state': text}) 
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Radius: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({radius: text});
-              console.log('radius: ', text)
-            }} 
-          />        
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <Text>Zipcode: </Text>
-          <TextInput style={styles.inputStyle} 
-            onChangeText={(text) => {
-              this.setState({zip: text});
-              console.log('zip: ', text)
-            }} 
-          />        
-        </View>
+
         <TouchableOpacity style={styles.createButtonStyle} onPress={this.submitFields}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Submit</Text>
         </TouchableOpacity>
