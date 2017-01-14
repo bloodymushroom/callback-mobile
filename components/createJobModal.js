@@ -50,7 +50,7 @@ export default class CreateJobModal extends Component {
   }
 
   submitFields(){
-    const {newJob} = Store;
+    const {newJob, idToken} = Store;
     var newJobJS = mobx.toJS(newJob);
     var that = this;
 
@@ -59,12 +59,14 @@ export default class CreateJobModal extends Component {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          credentials: idToken       
         },
         // need to fix - not working
         body: JSON.stringify(that.state)
       })
       .then((response) => {
+        console.log('new job', response)
         console.log('added a job', that.state)
         Store.push(that.state, 'favoredJobs')
         // Store.push(that.state, 'userParams');
