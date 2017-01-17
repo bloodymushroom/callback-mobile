@@ -26,11 +26,15 @@ var icons = {
   done: 'https://cdn1.iconfinder.com/data/icons/basic-ui-icon-rounded-colored/512/icon-01-128.png',
   x: 'https://cdn0.iconfinder.com/data/icons/web/512/e52-128.png',
   'connections': 'https://cdn2.iconfinder.com/data/icons/ourea-icons/256/Connected_256x256-32.png',
-  'Liked Job': 'https://cdn2.iconfinder.com/data/icons/designers-and-developers-icon-set/32/like-128.png',
+  'like': 'https://cdn2.iconfinder.com/data/icons/designers-and-developers-icon-set/32/like-128.png',
   'learn': 'https://cdn0.iconfinder.com/data/icons/thin-science-space/24/thin-1036_brain_thinking_mind_knowledge-128.png',
   'offer': 'https://cdn1.iconfinder.com/data/icons/party-3/500/Party_2-128.png',
   'interview': 'https://cdn4.iconfinder.com/data/icons/office-vol-2-3/48/75-256.png',
   email: 'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/mail-128.png',
+  sentEmail:'',
+  receivedEmail:'',
+  phoneInterview:'',
+  onsiteInterview:'',
   resume: 'https://cdn0.iconfinder.com/data/icons/seo-smart-pack/128/grey_new_seo2-07-128.png'
 }
 
@@ -118,6 +122,7 @@ class TaskFeedItem extends Component {
           company: that.state.companyName
         }, 'actionHistory')
 
+        // Store.completeAction(that.state.id);
         Store.deleteFromArray(that.state.id, 'activeActions')
       })
       .catch((error) => {
@@ -203,7 +208,7 @@ class TaskFeedItem extends Component {
             <Text>Task ID: {this.props.task.id}</Text>
             <Text>Prop Job:{this.props.jobId}</Text>
             <Text>State Job:{this.state.job_id}</Text>
-            <Text>{this.state.action_details}</Text>
+            <Text>{this.state.action}</Text>
             <Text display={this.state.companyName}>{this.state.companyName}</Text>
           </View>
         { this.props.category === 'Tasks' &&

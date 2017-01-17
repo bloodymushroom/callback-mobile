@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx'
+import {observable, action, computed} from 'mobx'
 import data from './fakeData'
 import mobx from 'mobx';
 
@@ -83,6 +83,19 @@ class ObservableStore {
         i++;
       }
     }
+  }
+
+  // not used
+  @action completeAction(id){
+    console.log('action completed');
+    for (var i = 0; i < this.actions.length; i++){
+      if (this.actions[i].id === id){
+        this.actions[i].completedTime = new Date();
+      }
+      return;
+    }
+
+    this.deleteFromArray(id, 'activeActionsComputed')
   }
 
   // update new jobs
@@ -190,6 +203,30 @@ class ObservableStore {
   // param methods
   @action updateUserParams(params){
     this.userParams = params;
+  }
+
+  @computed get activeActionsComputed() {
+    var ret = [];
+
+    this.actions.forEach((action, index) => {
+      if (!action.completedTime) {
+        ret.push(action);
+      }
+    })
+
+    return ret;
+  }
+
+  @computed get completedActionsComputed() {
+    var ret = [];
+
+    this.actions.forEach((action, index) => {
+      if (action.completedTime) {
+        ret.push(action);
+      }
+    })
+
+    return ret;
   }
 
 }

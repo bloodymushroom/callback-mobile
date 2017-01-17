@@ -175,8 +175,8 @@ export default class TaskScreen extends Component {
       .then((responseJson) => {
         // update
         // console.log('parameters: ', responseJson[0])
-        // Store.updateUserParams(responseJson.Parameters)
-        Store.updateUserParams(responseJson[0].Parameters)
+        Store.updateUserParams(responseJson.Parameters)
+        // Store.updateUserParams(responseJson[0].Parameters)
       })
       .catch((error) => {
         console.error(error);
