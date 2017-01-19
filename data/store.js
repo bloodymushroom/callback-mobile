@@ -148,15 +148,34 @@ class ObservableStore {
 
   // actions
   @action updateActions(actions) {
-    this.actions = actions.sort((a, b) => {
-      if (a.scheduledTime > b.scheduledTime) {
-        return -1;
-      } else if (a.scheduledTime < b.scheduledTime) {
-        return 1;
-      }
+    var that = this;
+    this.activeActions = [];
+    this.actionHistory = [];
 
-      return 0;
-    });
+    // sort by time
+    this.actions = actions
+    // .sort((a, b) => {
+    //   if (a.scheduledTime < b.scheduledTime) {
+    //     return -1;
+    //   } else if (a.scheduledTime > b.scheduledTime) {
+    //     return 1;
+    //   }
+
+    //   return 0;
+    // });
+
+    // sort actions
+    this.actions.forEach(function(action) {
+      if (action.completedTime === null) {
+        that.activeActions.push(action)
+      } else {
+        that.actionHistory.push(action)
+      }
+    })
+
+    // sort lengths
+    this.actionCount = this.activeActions.length;
+    this.actionHistoryCount = this.actionHistory.length;
   }
 
   @action updateActionCount(n) {
@@ -183,39 +202,30 @@ class ObservableStore {
     }
   }
 
-  @action sortActions(res) {
-    this.activeActions = [];
-    this.actionHistory = [];
-    var that = this;
-    console.log('this in sortActions', this)
-    this.actions.forEach(function(action) {
-      // if(action.type) {
-      //   if(!that.actionTypes[action.type]) {
-      //     that.actionTypes[action.type] = action.type;
-      //   }
-      // }
+  // @action sortActions(res) {
+  //   var that = this;
+  //   console.log('this in sortActions', this)
+  //   this.actions.forEach(function(action) {
+  //     if (action.completedTime === null) {
+  //       that.activeActions.push(action)
+  //     } else {
+  //       that.actionHistory.push(action)
+  //     }
+  //   })
 
-      if (action.completedTime === null) {
-        that.activeActions.push(action)
-      } else {
-        that.actionHistory.push(action)
-      }
-    })
+  //   that.activeActions = that.activeActions.sort((a, b) => {
+  //     if (a.scheduledTime < b.scheduledTime) {
+  //       return -1;
+  //     } else if (a.scheduledTime > b.scheduledTime) {
+  //       return 1;
+  //     }
 
-    that.activeActions = that.activeActions.sort((a, b) => {
-      if (a.scheduledTime < b.scheduledTime) {
-        return -1;
-      } else if (a.scheduledTime > b.scheduledTime) {
-        return 1;
-      }
+  //     return 0;
+  //   });
 
-      return 0;
-    });
-
-    this.actionCount = this.activeActions.length;
-    // console.log('actioncount', this.actionCount)
-    this.actionHistoryCount = this.actionHistory.length;
-  }
+  //   this.actionCount = this.activeActions.length;
+  //   this.actionHistoryCount = this.actionHistory.length;
+  // }
 
   @action changeJobModalUrl(url) {
     this.jobModalUrl = url;

@@ -95,7 +95,7 @@ class JobListScreen extends Component {
           })
           .then((responseJson) => {
             Store.updateActions(responseJson);
-            Store.sortActions(responseJson);
+            // Store.sortActions(responseJson);
           })
           .catch((error) => {
             console.error(error);
