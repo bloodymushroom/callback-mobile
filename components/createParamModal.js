@@ -84,10 +84,10 @@ export default class CreateParamModal extends Component {
           })
           .then((responseJson) => {
             var oldCount = Store.jobs.length;
-            console.log('jobsnew found: ', responseJson.length - Store.jobCount)
+
             Alert.alert('Added ' + (responseJson.length - oldCount) + ' new jobs');
-            // Store.jobCount = responseJson.length;
             Store.jobs = responseJson;
+
             that.setState({
               loading: false
             })
@@ -95,10 +95,9 @@ export default class CreateParamModal extends Component {
           })
           .catch((error) => {
             console.error(error);
+            that.closeModal()
           });
-        // that.closeModal();
       })
-    // that.closeModal();
   }
 
   render() {

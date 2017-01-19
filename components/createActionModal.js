@@ -106,9 +106,7 @@ export default class CreateActionModal extends Component {
         })
 
         Store.actions.push(that.state);
-        Store.activeActionsComputed.push(that.state)
-
-        Store.push(that.state, 'actions');
+        // Store.activeActionsComputed.push(that.state)
         that.closeModal();
       })
       .catch((err) => {

@@ -91,11 +91,6 @@ export default class TaskScreen extends Component {
 
   constructor(){
     super();
-
-    this.state = {
-      jobCount: 0,
-      actionCount: 0
-    }
   }
 
   componentWillMount() {

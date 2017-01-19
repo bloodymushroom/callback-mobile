@@ -122,7 +122,7 @@ class TaskFeedItem extends Component {
     })
     .then(function(response) {
       console.log('response from marking as complete', response)
-        Alert.alert(completedText + nextTask);
+        Alert.alert(completedText);
       
       // reset actions from DB since db spawns new actions base on previous completed action
       fetch(config.host+ '/actions/' + activeUserId, 

@@ -12,10 +12,6 @@ class ObservableStore {
   @observable activeUserId = 1;
   //actions
   @observable actions = [];
-  // @observable activeActions = [];
-  // @observable actionHistory = [];
-  // @observable actionCount = 0;
-  // @observable actionHistoryCount = 0;
   @observable actionTypes = {
     apply: 'apply', connections: 'connections', email: 'email', interview:'interview',
     learn: 'learn', 'like': 'like', meetup: 'meetup', offer: 'offer',
@@ -23,7 +19,7 @@ class ObservableStore {
   };
   // new jobs
   @observable jobs = [];
-  @observable jobCount = 0;
+  // @observable jobCount = 0;
   // activeJobs = user's favored jobs
   @observable favoredJobs = [];
   // @observable favoredJobCount = favoredJobs.length;
@@ -98,19 +94,6 @@ class ObservableStore {
 
     this.deleteFromArray(id, 'activeActionsComputed')
   }
-
-  // update new jobs
-  @action updateJobs(jobs) {
-    this.jobs = jobs;
-  }
-
-  // @action updateJobCount(n) {
-  //   if (n !== undefined) {
-  //     this.jobCount = n;
-  //   } else {
-  //     this.jobCount++;
-  //   }
-  // }
 
   // deletes a job ID and all actions associated with job
   @action deleteJob(id) {
