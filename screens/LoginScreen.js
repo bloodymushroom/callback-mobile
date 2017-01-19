@@ -124,26 +124,8 @@ export default class LoginScreen extends Component {
           <Text style={{textAlign: 'center'}}>Your Personal Recruiter</Text>
           </View>
           <View style={{flex: 1, flexDirection: 'column', margin: 10}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', margin: 5}}>
-              <Text style={{width: 70}}>username: </Text>
-              <TextInput style={styles.inputStyle} 
-                onChangeText={(text) => {
-                  this.setState({description: text}) 
-                }} 
-              />        
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', margin: 5}}>
-              <Text style={{width: 70}}>password: </Text>
-              <TextInput style={styles.inputStyle} 
-                onChangeText={(text) => {
-                  this.setState({description: text}) 
-                }} 
-              />        
-            </View>
-            {
-              this.state.loginFailed && <Text style={{color: 'red', textAlign: 'center'}}>Login failed, please try again.</Text>
-            }
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10, marginTop: 30}}>
               <View style={{justifyContent: 'center'}}>
                 <Text>Login with: </Text>
               </View>
@@ -153,12 +135,10 @@ export default class LoginScreen extends Component {
                   source={{uri: icons.google}}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.logIn}>
-                <Image 
-                  style={{height: 50, width: 50}}
-                  source={{uri: icons.linkedin}}
-                />
-              </TouchableOpacity>
+            {
+              this.state.loginFailed && <Text style={{color: 'red', textAlign: 'center'}}>Login failed, please try again.</Text>
+            }
+
             </View>
           </View>
           <TouchableOpacity style={{justifyContent: 'flex-end'}}>

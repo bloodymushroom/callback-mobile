@@ -106,12 +106,11 @@ export default class CreateActionModal extends Component {
         })
 
         Store.actions.push(that.state);
-        // Store.activeActionsComputed.push(that.state)
         that.closeModal();
       })
       .catch((err) => {
         console.log('error in action submission: ', err);
-        // that.closeModal();
+        that.closeModal();
       })
   }
 
