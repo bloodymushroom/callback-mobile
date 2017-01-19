@@ -57,7 +57,11 @@ export default class TaskFeed extends Component {
           </Text>
         }
         <ScrollView style={style.feed}>
-          {activeActions.map( (e, i) => <TaskFeedItem force={this.forceRerender} category={that.props.category} task={e} key={i}/>)}
+          {activeActions.map( (e, i) => {
+            console.log('action: ', mobx.toJS(e));
+            return <TaskFeedItem force={this.forceRerender} category={that.props.category} task={e} key={i}/>
+
+          })}
         </ScrollView>
       </View>
     )

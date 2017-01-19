@@ -11,7 +11,7 @@ import moment from 'moment'
 // state management
 import {observer} from 'mobx-react/native'
 import Store from '../data/store'
-
+import mobx from 'mobx'
 import config from '../constants/Routes'
 
 
@@ -105,17 +105,19 @@ class TaskFeedItem extends Component {
   completeTask() {
     const {idToken, activeUserId} = Store;
     var date = new Date();
-    var completedText = "Completed task: " + this.state.action + '\n';
+    var completedText = "Completed task: " + this.props.task.type + '\n';
     var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
     var that = this;
+    console.log('before - user id: ', activeUserId, 'action id: ', this.props.task.id, 'state id:', this.state.id)
 
-    fetch(config.host + '/actions/' + activeUserId + '/' + this.state.id, {
+    fetch(config.host + '/actions/' + activeUserId + '/' + this.props.task.id, {
       method: 'PUT',
       headers: {
         credentials: idToken     
       }
     })
     .then((response) => {
+        console.log('after - user id: ', activeUserId, 'action id: ', this.props.task.id, 'state id:', this.state.id)
         return response.json()
     })
     .then(function(response) {
@@ -139,7 +141,7 @@ class TaskFeedItem extends Component {
           console.error(error);
         });
         // force parent rerender
-        that.props.force();
+        // that.props.force();
         Store.updateActionCount('-');
         Store.updateHistoryCount();
         Store.push(
@@ -191,13 +193,13 @@ class TaskFeedItem extends Component {
     // using momentJS, find the difference between now and the scheduled due date in terms of days
     // store in variable diff
     var now = moment();
-    var dueDate = moment(this.state.scheduled_time);
+    var dueDate = moment(this.props.task.scheduledTime);
     var diff = dueDate.diff(now, 'days')
     var displayDate;
 
     // use diff to determine the display date in the task item
-    if (this.state.completed_time) {
-      var completedDate = moment(this.state.completed_time)
+    if (this.props.task.completedTime) {
+      var completedDate = moment(this.props.task.completedTime)
       diff = completedDate.diff(now, 'days');
       displayDate = diff === 0? 'today' : (diff * -1 === 1? '1 day ago': diff * -1 + ' days ago'); 
     } else {
@@ -216,13 +218,15 @@ class TaskFeedItem extends Component {
     this.setState({
       from_today: diff,
       display_date: displayDate,
-      icon: icons[this.state.action],
+      icon: icons[this.props.task.type],
     })
 
-    this.setItemStyle(diff, this.state.completed_time)
+    this.setItemStyle(diff, this.props.task.completedTime)
   }
 
   render() {
+    // console.log('this task: ', mobx.toJS(this.props.task))
+
     var style = {
       barStyle: {flex: 1, flexDirection: 'row', alignItems: 'center', borderWidth: 2, borderRadius: 5,
       padding: 2, marginTop: 2, borderColor: this.state.borderColor, backgroundColor: this.state.backgroundColor
@@ -239,8 +243,8 @@ class TaskFeedItem extends Component {
             source={{uri: this.state.icon}} 
           /></View>
           <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text>{displayString[this.state.action]}</Text>
-            <Text display={this.state.companyName}>{this.state.companyName}</Text>
+            <Text>{displayString[this.props.task.type]}</Text>
+            <Text display={this.props.task.company}>{this.props.task.company}</Text>
           </View>
         { this.props.category === 'Tasks' &&
         <View style={{justifyContent: 'center'}}>

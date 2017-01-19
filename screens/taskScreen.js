@@ -106,7 +106,6 @@ export default class TaskScreen extends Component {
 
   componentWillMount() {
     const {idToken, activeUserId} = Store;
-    console.log('idToken', idToken)
     var that = this;
     // get actions
     fetch(config.host+ '/actions/' + activeUserId, 
