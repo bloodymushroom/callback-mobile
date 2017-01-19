@@ -42,7 +42,7 @@ export default class JobActionView extends Component {
         padding: 10
       },
       titleBar: {
-        borderWidth: 2, borderColor: '#a5a2a4', marginBottom: 10
+        borderRadius: 5, marginBottom: 10, backgroundColor: '#0277BD'
       }
     }
 
@@ -51,22 +51,27 @@ export default class JobActionView extends Component {
     var id = this.props.route.params.job.id;
     console.log('passed job: ', this.props.route.params.job)
     return(
-      <View style={{flexDirection: 'column', margin:5}}>
+      <View style={{flex: 1, flexDirection: 'column', margin:5}}>
         <View style={{marginBottom: 5}}>
           <Text>Job ID: {id}</Text>
           <Text style={{fontSize: 15}}>{this.props.route.params.job.company}</Text>
           <Text style={{fontSize: 20}}>{this.props.route.params.job.jobTitle}</Text>
         </View>
         <View style={styles.titleBar}>
-          <Text style={{fontWeight: 'bold', margin: 3}}>Pending Tasks</Text>
+          <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>Pending Tasks</Text>
         </View>
+        <View style={{flex:1}}>
           <ScrollView>
           {
             activeActions.map( (e, i) => (
               <TaskFeedItem jobId={id} category='Tasks' task={e} key={i}/>
             ))
           }
-        </ScrollView>
+          </ScrollView>
+          {
+            activeActions.length === 0 && <View><Text>No pending actions for this job.</Text></View>
+          }
+        </View>
         <TouchableOpacity onPress={this.addAction} style={styles.createButtonStyle}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Add Action</Text>
         </TouchableOpacity>

@@ -44,7 +44,7 @@ export default class HistoryFeed extends Component {
   render() {
     var style = {
       titleBar: {
-        borderWidth: 2, borderColor: '#a5a2a4', marginBottom: 10
+        borderRadius: 5, marginBottom: 10, backgroundColor: '#0277BD'
       }
     }
     const {actions, activeActions, actionHistory} = Store;
@@ -55,7 +55,7 @@ export default class HistoryFeed extends Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ffffff', margin: 5}}>
         <View style={style.titleBar}>
-          <Text style={{fontWeight: 'bold', margin: 3}}>{this.props.category}</Text>
+          <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>{this.props.category}</Text>
         </View>
         {
           actionHistory.length === 0 && 

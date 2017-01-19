@@ -59,12 +59,7 @@ export default class ParamItem extends Component {
             <Text style={{fontStyle: 'italic'}}>Within {this.props.param.radius} miles of {this.props.param.zip}</Text>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity onPress={this.completeTask}>  
-              <Image 
-                style={{height: 30, width: 30, opacity: 0.5}}
-                source={{uri: icons.edit}} 
-              />
-            </TouchableOpacity>
+
             <TouchableOpacity onPress={this.deleteParam}>
               <Image 
                 style={{height: 30, width: 30, opacity: 0.8}}

@@ -16,7 +16,21 @@ class JobListNav extends Component {
       All: 'all available jobs'
     }
     var styles = {
-      tabStyle: { flex: 1, backgroundColor: '#a5a2a4', margin: 5, padding: 5}
+      activeButton: {
+        flex: 1, backgroundColor: '#F44336', margin: 4, padding: 5, borderRadius: 5
+      },
+      inactiveButton: {
+        flex: 1, backgroundColor: '#a5a2a4', margin: 5, padding: 5, borderRadius: 5
+      },
+      activeText: {
+        textAlign: 'center',
+        color: 'white',
+        fontWeight: 'bold'
+      },
+      inactiveText: {
+        textAlign: 'center',
+        color: 'black'
+      }
     }
 
     return (
@@ -25,11 +39,11 @@ class JobListNav extends Component {
           <Text>Hi <Text style={{fontWeight: 'bold'}}>{activeUser}</Text>, here are {userMessage[jobScreenActiveTab]}.</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity onPress={(event) => this.onTabClick(event, 'Pending')} style={styles.tabStyle} >
-            <Text style={{textAlign: 'center'}}>Pending</Text>
+          <TouchableOpacity onPress={(event) => this.onTabClick(event, 'Pending')} style={Store.jobScreenActiveTab === 'Active'? styles.inactiveButton: styles.activeButton} >
+            <Text style={Store.jobScreenActiveTab === 'Active'? styles.inactiveText: styles.activeText}>Pending</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={(event) => this.onTabClick(event, 'Active')} style={styles.tabStyle} >
-            <Text style={{textAlign: 'center'}}>Active</Text>
+          <TouchableOpacity onPress={(event) => this.onTabClick(event, 'Active')} style={Store.jobScreenActiveTab !== 'Active'? styles.inactiveButton: styles.activeButton} >
+            <Text style={Store.jobScreenActiveTab !== 'Active'? styles.inactiveText: styles.activeText}>Active</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -18,11 +18,10 @@ var icons = {
 
 import Exponent from 'exponent'
 
-
 async function signInWithGoogleAsync() {
   try {
     const result = await Exponent.Google.logInAsync({
-      // androidClientId: YOUR_CLIENT_ID_HERE,
+      androidClientId: secrets['google-web']['client_id'],
       iosClientId: secrets['google-web']['client_id'],
       scopes: ['profile', 'email'],
     });

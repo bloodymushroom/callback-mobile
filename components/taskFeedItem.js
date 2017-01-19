@@ -31,11 +31,30 @@ var icons = {
   'offer': 'https://cdn1.iconfinder.com/data/icons/party-3/500/Party_2-128.png',
   'interview': 'https://cdn4.iconfinder.com/data/icons/office-vol-2-3/48/75-256.png',
   email: 'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/mail-128.png',
-  sentEmail:'',
-  receivedEmail:'',
-  phoneInterview:'',
-  onsiteInterview:'',
-  resume: 'https://cdn0.iconfinder.com/data/icons/seo-smart-pack/128/grey_new_seo2-07-128.png'
+  sentEmail:'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/mail-128.png',
+  receivedEmail:'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/mail-128.png',
+  phoneInterview:'https://cdn4.iconfinder.com/data/icons/office-vol-2-3/48/75-256.png',
+  personalInterview:'https://cdn4.iconfinder.com/data/icons/office-vol-2-3/48/75-256.png',
+  resume: 'https://cdn0.iconfinder.com/data/icons/seo-smart-pack/128/grey_new_seo2-07-128.png',
+  'follow up': 'https://cdn2.iconfinder.com/data/icons/toolbar-icons/512/Return_Arrow-128.png'
+}
+
+var displayString = {
+  phone: 'Phone call',
+  meetup: 'Attend meetup',
+  schedule: 'Schedule meeting',
+  review: 'Review new jobs',
+  apply: 'Apply to job',
+  connections: 'Search for connection',
+  like: 'Added job',
+  learn: 'Learn about company',
+  offer: 'Received offer',
+  interview: 'Interview',
+  phoneInterview: 'Phone Interview',
+  personalInterview: 'On-site Interview',
+  webInterview: 'Web Interview',
+  resume: 'Update your resume',
+  'follow up': 'Follow up on application status'
 }
 
 // each item in the task feed
@@ -190,7 +209,7 @@ class TaskFeedItem extends Component {
 
   render() {
     var style = {
-      barStyle: {flex: 1, flexDirection: 'row', alignItems: 'center', borderWidth: 2,
+      barStyle: {flex: 1, flexDirection: 'row', alignItems: 'center', borderWidth: 2, borderRadius: 5,
       padding: 2, marginTop: 2, borderColor: this.state.borderColor, backgroundColor: this.state.backgroundColor
       },
       checkboxStyle: {width: 60, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}
@@ -205,10 +224,7 @@ class TaskFeedItem extends Component {
             source={{uri: this.state.icon}} 
           /></View>
           <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text>Task ID: {this.props.task.id}</Text>
-            <Text>Prop Job:{this.props.jobId}</Text>
-            <Text>State Job:{this.state.job_id}</Text>
-            <Text>{this.state.action}</Text>
+            <Text>{displayString[this.state.action]}</Text>
             <Text display={this.state.companyName}>{this.state.companyName}</Text>
           </View>
         { this.props.category === 'Tasks' &&
@@ -237,5 +253,12 @@ class TaskFeedItem extends Component {
     }
   }
 }
+
+/*add these props for testing 
+            <Text>Task ID: {this.props.task.id}</Text>
+            <Text>Prop Job:{this.props.jobId}</Text>
+            <Text>State Job:{this.state.job_id}</Text>
+            <Text>Scheduled time: {this.props.task.scheduledTime}</Text>
+*/
 
 module.exports = TaskFeedItem;

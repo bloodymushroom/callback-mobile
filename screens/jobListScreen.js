@@ -83,6 +83,24 @@ class JobListScreen extends Component {
     .then((response) => {
       if (button === 'favored') {
         Store.addFavoredJob(job);
+        // reset actions 
+        fetch(config.host+ '/actions/' + activeUserId, 
+        {
+          headers: {
+            credentials: idToken
+          }
+        })
+          .then((response) => {
+            return response.json()
+          })
+          .then((responseJson) => {
+            Store.updateActions(responseJson);
+            Store.sortActions(responseJson);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+          
         Alert.alert('Added job: ' + job.jobTitle + ', ' + job.company)
       } else {
         console.log('removed job: ' + job.jobTitle + ', ' + job.company)          

@@ -1,6 +1,7 @@
 import {observable, action, computed} from 'mobx'
 import data from './fakeData'
 import mobx from 'mobx';
+import moment from 'moment'
 
 class ObservableStore {
   //access tokens
@@ -147,7 +148,15 @@ class ObservableStore {
 
   // actions
   @action updateActions(actions) {
-    this.actions = actions;
+    this.actions = actions.sort((a, b) => {
+      if (a.scheduledTime > b.scheduledTime) {
+        return -1;
+      } else if (a.scheduledTime < b.scheduledTime) {
+        return 1;
+      }
+
+      return 0;
+    });
   }
 
   @action updateActionCount(n) {
@@ -175,9 +184,11 @@ class ObservableStore {
   }
 
   @action sortActions(res) {
+    this.activeActions = [];
+    this.actionHistory = [];
     var that = this;
     console.log('this in sortActions', this)
-    res.forEach(function(action) {
+    this.actions.forEach(function(action) {
       // if(action.type) {
       //   if(!that.actionTypes[action.type]) {
       //     that.actionTypes[action.type] = action.type;
@@ -190,6 +201,16 @@ class ObservableStore {
         that.actionHistory.push(action)
       }
     })
+
+    that.activeActions = that.activeActions.sort((a, b) => {
+      if (a.scheduledTime < b.scheduledTime) {
+        return -1;
+      } else if (a.scheduledTime > b.scheduledTime) {
+        return 1;
+      }
+
+      return 0;
+    });
 
     this.actionCount = this.activeActions.length;
     // console.log('actioncount', this.actionCount)
@@ -228,6 +249,18 @@ class ObservableStore {
 
     return ret;
   }
+
+  // @computed todaysCompleted() {
+  //   var today = moment();
+  //   var hist = this.actionHistory.filter((action) => {
+  //     var completed = moment(action.completedTime);
+  //     return today.diff(completed) === 0;
+  //   })
+
+  //   for (var i = 0; i < hist.length; i++) {
+  //     if (this.userGhist[i].task)
+  //   }
+  // }
 
 }
 
