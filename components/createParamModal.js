@@ -84,12 +84,12 @@ export default class CreateParamModal extends Component {
           })
           .then((responseJson) => {
             console.log('jobsnew found: ', responseJson.length - Store.jobCount)
+            Alert.alert('Added ' + (responseJson.length - Store.jobCount) + ' new jobs');
             Store.updateJobCount(responseJson.length);
             Store.updateJobs(responseJson);
             that.setState({
               loading: false
             })
-            Alert.alert('Added ' + (responseJson.length - Store.jobCount) + ' new jobs');
             that.closeModal();
           })
           .catch((error) => {

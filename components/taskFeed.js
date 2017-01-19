@@ -21,8 +21,14 @@ export default class TaskFeed extends Component {
     this.state = {
       feedTasks: null
     }
+
+    this.forceRerender = this.forceRerender.bind(this);
   }
 
+  forceRerender() {
+    console.log('forced?')
+    this.forceUpdate();
+  }
   // componentWillMount(){
   //   var tasks = mobx.toJS(Store.actions)
   //   this.setState({
@@ -51,7 +57,7 @@ export default class TaskFeed extends Component {
           </Text>
         }
         <ScrollView style={style.feed}>
-          {activeActions.map( (e, i) => <TaskFeedItem category={that.props.category} task={e} key={i}/>)}
+          {activeActions.map( (e, i) => <TaskFeedItem force={this.forceRerender} category={that.props.category} task={e} key={i}/>)}
         </ScrollView>
       </View>
     )

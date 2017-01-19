@@ -121,10 +121,25 @@ class TaskFeedItem extends Component {
     .then(function(response) {
       console.log('response from marking as complete', response)
         Alert.alert(completedText + nextTask);
-        // that.setState({
-        //   completed_time: date
-        // })
-
+// update actions
+      fetch(config.host+ '/actions/' + activeUserId, 
+      {
+        headers: {
+          credentials: idToken
+        }
+      })
+        .then((response) => {
+          return response.json()
+        })
+        .then((responseJson) => {
+          Store.updateActions(responseJson);
+          // Store.sortActions(responseJson);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        // force parent rerender
+        that.props.force();
         Store.updateActionCount('-');
         Store.updateHistoryCount();
         Store.push(
@@ -142,7 +157,7 @@ class TaskFeedItem extends Component {
         }, 'actionHistory')
 
         // Store.completeAction(that.state.id);
-        Store.deleteFromArray(that.state.id, 'activeActions')
+        // Store.deleteFromArray(that.state.id, 'activeActions')
       })
       .catch((error) => {
         console.error(error);

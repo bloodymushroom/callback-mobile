@@ -18,7 +18,7 @@ class ObservableStore {
   @observable actionHistoryCount = 0;
   @observable actionTypes = {
     apply: 'apply', connections: 'connections', email: 'email', interview:'interview',
-    learn: 'learn', 'Liked Job': 'Liked Job', meetup: 'meetup', offer: 'offer',
+    learn: 'learn', 'like': 'like', meetup: 'meetup', offer: 'offer',
     phone: 'phone', resume: 'resume', review: 'review', schedule: 'schedule'
   };
   // new jobs
@@ -172,6 +172,7 @@ class ObservableStore {
         that.actionHistory.push(action)
       }
     })
+
 
     // sort lengths
     this.actionCount = this.activeActions.length;
