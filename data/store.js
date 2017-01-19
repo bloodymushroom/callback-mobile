@@ -12,10 +12,10 @@ class ObservableStore {
   @observable activeUserId = 1;
   //actions
   @observable actions = [];
-  @observable activeActions = [];
-  @observable actionHistory = [];
-  @observable actionCount = 0;
-  @observable actionHistoryCount = 0;
+  // @observable activeActions = [];
+  // @observable actionHistory = [];
+  // @observable actionCount = 0;
+  // @observable actionHistoryCount = 0;
   @observable actionTypes = {
     apply: 'apply', connections: 'connections', email: 'email', interview:'interview',
     learn: 'learn', 'like': 'like', meetup: 'meetup', offer: 'offer',
@@ -32,18 +32,18 @@ class ObservableStore {
   // parameters
   @observable userParams = [];
   // new form items
-  @observable newJob = {
-    jobTitle: '',
-    company: '',
-    url: '',
-    address: '',
-    city: '',
-    state: '',
-    snippet: '',
-    source: 'user',
-    origin: 'user',
-    id: undefined
-  }
+  // @observable newJob = {
+  //   jobTitle: '',
+  //   company: '',
+  //   url: '',
+  //   address: '',
+  //   city: '',
+  //   state: '',
+  //   snippet: '',
+  //   source: 'user',
+  //   origin: 'user',
+  //   id: undefined
+  // }
 
   @action setIdToken(token){
     console.log('set token')
@@ -104,31 +104,22 @@ class ObservableStore {
     this.jobs = jobs;
   }
 
-  @action updateJobCount(n) {
-    if (n !== undefined) {
-      this.jobCount = n;
-    } else {
-      this.jobCount++;
-    }
-  }
+  // @action updateJobCount(n) {
+  //   if (n !== undefined) {
+  //     this.jobCount = n;
+  //   } else {
+  //     this.jobCount++;
+  //   }
+  // }
 
-  // delete job and all actions associated with job
+  // deletes a job ID and all actions associated with job
   @action deleteJob(id) {
     this.deleteFromArray(id, 'favoredJobs');
 
     var i = 0;
-    // while(i < this.actions.length) {
-    //   if (this.actions[i].JobId === id) {
-    //     this.actions.splice(i, 1);
-    //     console.log('i', i)
-    //   } else {
-    //     i++;
-    //   }
-    // }
-    while(i < this.activeActions.length) {
-      if (this.activeActions[i].JobId === id) {
-        this.activeActions.splice(i, 1);
-        this.activeActionCount--;
+    while(i < this.actions.length) {
+      if (this.actions[i].JobId === id) {
+        this.actions.splice(i, 1);
         console.log('i', i, 'jobId:', id)
       } else {
         i++;
@@ -136,17 +127,7 @@ class ObservableStore {
     }
   }
 
-  // update user's favored jobs
-  @action updateFavoredJobs(jobs) {
-    this.favoredJobs = jobs;
-  }
-
-  //push to favored jobs
-  @action addFavoredJob(job) {
-    this.favoredJobs.push(job);
-  }
-
-  // actions
+  // update all user's past and present actions, sorts by scheduled time
   @action updateActions(actions) {
     var that = this;
     this.activeActions = [];
@@ -154,87 +135,15 @@ class ObservableStore {
 
     // sort by time
     this.actions = actions
-    // .sort((a, b) => {
-    //   if (a.scheduledTime < b.scheduledTime) {
-    //     return -1;
-    //   } else if (a.scheduledTime > b.scheduledTime) {
-    //     return 1;
-    //   }
-
-    //   return 0;
-    // });
-
-    // sort actions
-    this.actions.forEach(function(action) {
-      if (action.completedTime === null) {
-        that.activeActions.push(action)
-      } else {
-        that.actionHistory.push(action)
+    .sort((a, b) => {
+      if (a.scheduledTime < b.scheduledTime) {
+        return -1;
+      } else if (a.scheduledTime > b.scheduledTime) {
+        return 1;
       }
-    })
 
-
-    // sort lengths
-    this.actionCount = this.activeActions.length;
-    this.actionHistoryCount = this.actionHistory.length;
-  }
-
-  @action updateActionCount(n) {
-    if (n !== undefined) {
-      if (n === '-' && this.actionCount > 0) {
-        this.actionCount--;
-      } else {      
-        this.actionCount = n;
-      }
-    } else {
-      this.actionCount++;
-    }
-  }
-
-  @action updateHistoryCount(n) {
-    if (n !== undefined) {
-      if (n === '-' && this.actionHistoryCount > 0) {
-        this.actionHistoryCount--;
-      } else {      
-        this.actionHistoryCount = n;
-      }
-    } else {
-      this.actionHistoryCount++;
-    }
-  }
-
-  // @action sortActions(res) {
-  //   var that = this;
-  //   console.log('this in sortActions', this)
-  //   this.actions.forEach(function(action) {
-  //     if (action.completedTime === null) {
-  //       that.activeActions.push(action)
-  //     } else {
-  //       that.actionHistory.push(action)
-  //     }
-  //   })
-
-  //   that.activeActions = that.activeActions.sort((a, b) => {
-  //     if (a.scheduledTime < b.scheduledTime) {
-  //       return -1;
-  //     } else if (a.scheduledTime > b.scheduledTime) {
-  //       return 1;
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   this.actionCount = this.activeActions.length;
-  //   this.actionHistoryCount = this.actionHistory.length;
-  // }
-
-  @action changeJobModalUrl(url) {
-    this.jobModalUrl = url;
-  }
-
-  // param methods
-  @action updateUserParams(params){
-    this.userParams = params;
+      return 0;
+    });
   }
 
   @computed get activeActionsComputed() {
@@ -260,19 +169,6 @@ class ObservableStore {
 
     return ret;
   }
-
-  // @computed todaysCompleted() {
-  //   var today = moment();
-  //   var hist = this.actionHistory.filter((action) => {
-  //     var completed = moment(action.completedTime);
-  //     return today.diff(completed) === 0;
-  //   })
-
-  //   for (var i = 0; i < hist.length; i++) {
-  //     if (this.userGhist[i].task)
-  //   }
-  // }
-
 }
 
 const observableStore = new ObservableStore();

@@ -32,10 +32,10 @@ export default class CreateParamModal extends Component {
 
     this.state = {
       descriptor: null,
-      city: null,
-      state: null,
+      city: 'San Francisco',
+      state: 'Ca',
       radius: 25,
-      zip: null,
+      zip: 94100,
       loading: false
     }
 
@@ -83,10 +83,11 @@ export default class CreateParamModal extends Component {
             return response.json();
           })
           .then((responseJson) => {
+            var oldCount = Store.jobs.length;
             console.log('jobsnew found: ', responseJson.length - Store.jobCount)
-            Alert.alert('Added ' + (responseJson.length - Store.jobCount) + ' new jobs');
-            Store.updateJobCount(responseJson.length);
-            Store.updateJobs(responseJson);
+            Alert.alert('Added ' + (responseJson.length - oldCount) + ' new jobs');
+            // Store.jobCount = responseJson.length;
+            Store.jobs = responseJson;
             that.setState({
               loading: false
             })

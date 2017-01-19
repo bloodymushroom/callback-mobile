@@ -21,8 +21,8 @@ import Exponent from 'exponent'
 async function signInWithGoogleAsync() {
   try {
     const result = await Exponent.Google.logInAsync({
-      androidClientId: secrets['google-web']['client_id'],
-      iosClientId: secrets['google-web']['client_id'],
+      androidClientId: secrets['google-web']['android'],
+      iosClientId: secrets['google-web']['ios'],
       scopes: ['profile', 'email'],
     });
 

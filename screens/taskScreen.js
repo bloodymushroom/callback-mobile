@@ -24,12 +24,6 @@ import TaskStatus from '../components/taskStatus'
 import TaskFeed from '../components/taskFeed'
 import HistoryFeed from '../components/historyFeed'
 
-// config
-
-// import data from '../data/fakeData'
-
-// import {Nav} from 'react-bootstrap'
-
 // variables
 var testTaskTypes = [ 
   { type: 'Open Tasks', count: 8 }, 
@@ -107,6 +101,7 @@ export default class TaskScreen extends Component {
   componentWillMount() {
     const {idToken, activeUserId} = Store;
     var that = this;
+
     // get actions
     fetch(config.host+ '/actions/' + activeUserId, 
     {
@@ -119,7 +114,6 @@ export default class TaskScreen extends Component {
       })
       .then((responseJson) => {
         Store.updateActions(responseJson);
-        // Store.sortActions(responseJson);
       })
       .catch((error) => {
         console.error(error);
@@ -132,14 +126,10 @@ export default class TaskScreen extends Component {
       }
     })
       .then((response) => {
-        // console.log('jobs found: ', response)
-        console.log('config', config.host)
         return response.json();
       })
       .then((responseJson) => {
-        // console.log('jobsnew found: ', responseJson)
-        Store.updateJobCount(responseJson.length);
-        Store.updateJobs(responseJson);
+        Store.jobs = responseJson;
       })
       .catch((error) => {
         console.error(error);
@@ -155,8 +145,7 @@ export default class TaskScreen extends Component {
         return response.json()
       })
       .then((responseJson) => {
-        // console.log('jobs found: ', responseJson)
-        Store.updateFavoredJobs(responseJson);
+        Store.favoredJobs = responseJson;
       })
       .catch((error) => {
         console.error(error);
@@ -172,10 +161,8 @@ export default class TaskScreen extends Component {
         return response.json()
       })
       .then((responseJson) => {
-        // update
-        // console.log('parameters: ', responseJson[0])
-        Store.updateUserParams(responseJson.Parameters)
-        // Store.updateUserParams(responseJson[0].Parameters)
+        Store.userParams = responseJson.Parameters;
+        
       })
       .catch((error) => {
         console.error(error);
@@ -193,7 +180,7 @@ export default class TaskScreen extends Component {
     const {activeUser, actions} = Store;
     return(
       <View style={{flex: 1, flexDirection: 'column', marginTop: 5}}>
-        <TaskStatus user={activeUser} taskTypes={testTaskTypes} jobCount={this.state.jobCount} actionCount={this.state.actionCount} navigator={this.props.navigator}/>
+        <TaskStatus user={activeUser} taskTypes={testTaskTypes} navigator={this.props.navigator}/>
         <View style={{flex: 1}}>
           <TaskFeed category='Tasks'/>
           <HistoryFeed category='History'/>

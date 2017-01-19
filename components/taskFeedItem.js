@@ -86,10 +86,10 @@ class TaskFeedItem extends Component {
   }
 
   shouldShow(){
-    if ((this.props.category === 'Tasks' && !this.state.completed_time) 
-      || (this.props.category === 'History' && !!this.state.completed_time)) {
+    if ((this.props.category === 'Tasks' && !this.props.task.completedTime) 
+      || (this.props.category === 'History' && !!this.props.task.completedTime)) {
       if (this.props.jobId) {
-        if (this.props.jobId === this.state.job_id) {
+        if (this.props.jobId === this.props.task.JobId) {
           return true;
         } else {
           return false;
@@ -106,10 +106,10 @@ class TaskFeedItem extends Component {
     const {idToken, activeUserId} = Store;
     var date = new Date();
     var completedText = "Completed task: " + this.props.task.type + '\n';
-    var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
+    // var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
     var that = this;
-    console.log('before - user id: ', activeUserId, 'action id: ', this.props.task.id, 'state id:', this.state.id)
 
+    // put request to database to set action's completed time to now
     fetch(config.host + '/actions/' + activeUserId + '/' + this.props.task.id, {
       method: 'PUT',
       headers: {
@@ -123,7 +123,8 @@ class TaskFeedItem extends Component {
     .then(function(response) {
       console.log('response from marking as complete', response)
         Alert.alert(completedText + nextTask);
-// update actions
+      
+      // reset actions from DB since db spawns new actions base on previous completed action
       fetch(config.host+ '/actions/' + activeUserId, 
       {
         headers: {
@@ -135,35 +136,14 @@ class TaskFeedItem extends Component {
         })
         .then((responseJson) => {
           Store.updateActions(responseJson);
-          // Store.sortActions(responseJson);
         })
         .catch((error) => {
           console.error(error);
         });
-        // force parent rerender
-        // that.props.force();
-        Store.updateActionCount('-');
-        Store.updateHistoryCount();
-        Store.push(
-        {
-          id: that.state.id,
-          UserId: that.state.user_id,
-          JobId: that.state.job_id,
-          scheduledTime: that.state.scheduled_time,
-          completedTime: date,
-          actionSource: that.state.action_type,
-          type: that.state.action,
-          // can be task.description
-          description: that.state.action_details,
-          company: that.state.companyName
-        }, 'actionHistory')
-
-        // Store.completeAction(that.state.id);
-        // Store.deleteFromArray(that.state.id, 'activeActions')
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   setItemStyle(time, completed) {
@@ -274,10 +254,10 @@ class TaskFeedItem extends Component {
 }
 
 /*add these props for testing 
-            <Text>Task ID: {this.props.task.id}</Text>
-            <Text>Prop Job:{this.props.jobId}</Text>
-            <Text>State Job:{this.state.job_id}</Text>
-            <Text>Scheduled time: {this.props.task.scheduledTime}</Text>
 */
 
 module.exports = TaskFeedItem;
+            // <Text>Task ID: {this.props.task.id}</Text>
+            // <Text>Prop Job:{this.props.jobId}</Text>
+            // <Text>State Job:{this.state.job_id}</Text>
+            // <Text>Scheduled time: {this.props.task.scheduledTime}</Text>

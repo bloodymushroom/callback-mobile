@@ -104,12 +104,11 @@ export default class CreateActionModal extends Component {
         that.setState({
           id: response.id
         })
-        console.log('new action id:', response.id)
-        console.log('new action job:', response.JobId)
-        console.log('action pushed: ', that.state.scheduledTime)
+
+        Store.actions.push(that.state);
+        Store.activeActionsComputed.push(that.state)
+
         Store.push(that.state, 'actions');
-        Store.push(that.state, 'activeActions');
-        Store.updateActionCount();
         that.closeModal();
       })
       .catch((err) => {

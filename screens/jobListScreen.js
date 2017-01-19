@@ -82,7 +82,7 @@ class JobListScreen extends Component {
     })
     .then((response) => {
       if (button === 'favored') {
-        Store.addFavoredJob(job);
+        Store.favoredJobs.push(job);
 
         // reset actions 
         fetch(config.host+ '/actions/' + activeUserId, 
