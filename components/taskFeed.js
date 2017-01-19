@@ -52,12 +52,12 @@ export default class TaskFeed extends Component {
           <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>{this.props.category}</Text>
         </View>
         {
-          activeActions.length === 0 && 
+          Store.activeActionsComputed.length === 0 && 
           <Text>No pending actions. Add a job to generate activities.
           </Text>
         }
         <ScrollView style={style.feed}>
-          {activeActions.map( (e, i) => {
+          {Store.activeActionsComputed.map( (e, i) => {
             console.log('action: ', mobx.toJS(e));
             return <TaskFeedItem force={this.forceRerender} category={that.props.category} task={e} key={i}/>
 

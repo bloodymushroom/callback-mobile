@@ -57,7 +57,7 @@ class TaskStatusItem extends Component {
       return (
         <View style={style.taskView}>
           <TouchableOpacity style={style.taskCount} onPress={this._navigate.bind(this)}>
-            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{jobCount}</Text>
+            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{Store.jobs.length}</Text>
           </TouchableOpacity>
           <View>
             <Text style={{textAlign: 'center', fontSize: 11, margin: 10}}>{this.state.taskType}</Text>
@@ -68,7 +68,7 @@ class TaskStatusItem extends Component {
       return (
         <View style={style.taskView}>
           <TouchableOpacity style={style.taskCount} onPress={this._navigate.bind(this)}>
-            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{actionCount}</Text>
+            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{Store.activeActionsComputed.length}</Text>
           </TouchableOpacity>
           <View>
             <Text style={{textAlign: 'center', fontSize: 11, margin: 10}}>{this.state.taskType}</Text>
@@ -79,7 +79,7 @@ class TaskStatusItem extends Component {
       return (
         <View style={style.taskView}>
           <TouchableOpacity style={style.taskCount} onPress={this._navigate.bind(this)}>
-            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{actionHistoryCount}</Text>
+            <Text style={{textAlign: 'center', width: 30, fontSize: 15, color: '#ffffff'}}>{Store.completedActionsComputed.length}</Text>
           </TouchableOpacity>
           <View>
             <Text style={{textAlign: 'center', fontSize: 11, margin: 10}}>{this.state.taskType}</Text>

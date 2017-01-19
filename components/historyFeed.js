@@ -23,24 +23,6 @@ export default class HistoryFeed extends Component {
     }
   }
 
-  // componentWillMount(){
-  //   var tasks = mobx.toJS(Store.actions)
-  //   this.setState({
-  //     feedTasks: tasks
-  //   })
-  // }
-
-  // compareDates(a, b){
-  //   // sort completed tasks by descending
-  //   var now = moment();
-  //   var timeA = moment(a);
-  //   var timeB = moment(b);
-  //   var diffA = timeA.diff(now, 'days');
-  //   var diffB = timeB.diff(now, 'days')
-
-  //   return diffA - diffB < 0? 1: 0;
-  // }
-
   render() {
     var style = {
       titleBar: {
@@ -58,12 +40,12 @@ export default class HistoryFeed extends Component {
           <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>{this.props.category}</Text>
         </View>
         {
-          actionHistory.length === 0 && 
+          Store.completedActionsComputed.length === 0 && 
           <Text>No pending actions. Add a job to generate activities.
           </Text>
         }
         <ScrollView >
-          {actionHistory.map( (e, i) => <TaskFeedItem category={that.props.category} task={e} key={i}/>)}
+          {Store.completedActionsComputed.map( (e, i) => <TaskFeedItem category={that.props.category} task={e} key={i}/>)}
         </ScrollView>
       </View>
     )
