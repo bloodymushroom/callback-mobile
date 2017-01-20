@@ -34,6 +34,6 @@ const Router = createRouter(() => ({
   settings: () => SettingsScreen,
   params: () => ParamsScreen,
   rootNavigation: () => RootNavigation
-}));
+}), {ignoreSerializableWarnings: true});
 
 export default Router;

@@ -52,7 +52,6 @@ export default class DeleteJobModal extends Component {
   }
 
   _setJobState(newStatus){
-    console.log('triggered');
     this.setState({
       status: newStatus
     })
@@ -63,7 +62,6 @@ export default class DeleteJobModal extends Component {
     var newJobJS = mobx.toJS(newJob);
 
     var that = this;
-    console.log('before send: ' , that.state)
     fetch(config.host + '/jobs', 
       {
         method: 'POST',
@@ -93,7 +91,6 @@ export default class DeleteJobModal extends Component {
     var that = this;
     const {jobs, activeUserId, idToken} = Store;
     var jobId = this.props.route.params.job.id;
-    console.log('jobid:', jobId)
     // need to change unfavored to dropdown status
     fetch( config.host + '/users/' + activeUserId +'/jobs/' + jobId, {
       method: 'PUT',
@@ -106,7 +103,6 @@ export default class DeleteJobModal extends Component {
       })
     })
     .then((response) => {
-      console.log('removed job')
       Store.deleteJob(jobId);
       that.closeModal();
     })

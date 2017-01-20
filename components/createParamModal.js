@@ -50,7 +50,6 @@ export default class CreateParamModal extends Component {
   submitFields(){
     const {activeUserId, idToken} = Store;
     var that = this;
-    console.log('before send: ' , that.state)
     fetch(config.host + '/parameter/' + activeUserId, 
       {
         method: 'POST',
@@ -79,7 +78,6 @@ export default class CreateParamModal extends Component {
         })
           .then((response) => {
             // console.log('jobs found: ', response)
-            console.log('config', config.host)
             return response.json();
           })
           .then((responseJson) => {

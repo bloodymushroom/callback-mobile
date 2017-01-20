@@ -143,7 +143,7 @@ export default class JobListItem extends Component {
           {this.props.job.city}, {this.props.job.state}
         </Text>
         <Text style={{fontSize: 15, margin: 2, fontWeight:'bold'}}>Description:</Text>
-        <ScrollView style={{height: 200}}>
+        <ScrollView style={{height: 100}}>
           <Text style={{fontSize: 15, margin: 2}}>{cleanSnippet}</Text>
           <TouchableOpacity style={{width:100, height:15}} onPress={this.showMoreInfo.bind(this)}>
             <Text style={{color: 'blue', fontSize: 15}}> show more</Text>

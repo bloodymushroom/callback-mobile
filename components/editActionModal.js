@@ -71,7 +71,6 @@ export default class EditActionModal extends Component {
     const {activeUserId} = Store;
 
     var today = new Date().toISOString().slice(0, 19).replace(/T/, ' ');
-    console.log('today: ', today);
 
     this.state = {
       id: this.props.action.id,
@@ -111,16 +110,11 @@ export default class EditActionModal extends Component {
   }
 
   saveChanges(){
-    console.log('new action: ', this.state)
     const {idToken, activeUserId} = Store;
-    console.log('index: ', this.props.index);
     var storeAction = Store.activeActionsComputed[this.props.index]
-    console.log('store action:', mobx.toJS(storeAction))
     storeAction.description = this.state.description;
     storeAction.scheduledTime = this.state.scheduledTime;
     storeAction.notes = this.state.notes;
-
-    console.log('after edit:', mobx.toJS(storeAction))
 
     var that = this;
 

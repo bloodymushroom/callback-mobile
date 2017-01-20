@@ -42,13 +42,10 @@ class ObservableStore {
   // }
 
   @action setIdToken(token){
-    console.log('set token')
     this.idToken = token;
   }
 
   @action setState(key, value){
-    console.log('set key')
-    console.log('this in setstate', this)
     this[key] = value;
   }
 
@@ -59,18 +56,13 @@ class ObservableStore {
   }
 
   @action changeJobScreenTab(tabName) {
-    console.log('this in changeJobScreenTab', this)
     this.jobScreenActiveTab = tabName;
     // console.log('jobs: ', this.jobs)
   }
 
   @action findJob(id) {
-    console.log('in find job')
     for (var i = 0; i < this.favoredJobs.length; i++) {
-      console.log('job: ', this.favoredJobs[i])
-      console.log('id: ',this.favoredJobs[i].id)
       if (this.favoredJobs[i].id === id) {
-        console.log('found it!')
         return this.favoredJobs[i];
       }
     }
@@ -86,7 +78,6 @@ class ObservableStore {
     while (i < this[array].length){
       if (this[array][i].id === id) {
         this[array].splice(i, 1);
-        console.log('i', i)
         break;
       } else {
         i++;
@@ -96,7 +87,6 @@ class ObservableStore {
 
   // not used
   @action completeAction(id){
-    console.log('action completed');
     for (var i = 0; i < this.actions.length; i++){
       if (this.actions[i].id === id){
         this.actions[i].completedTime = new Date();
@@ -115,7 +105,6 @@ class ObservableStore {
     while(i < this.actions.length) {
       if (this.actions[i].JobId === id) {
         this.actions.splice(i, 1);
-        console.log('i', i, 'jobId:', id)
       } else {
         i++;
       }

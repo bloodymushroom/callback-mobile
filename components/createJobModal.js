@@ -54,7 +54,6 @@ export default class CreateJobModal extends Component {
     var newJobJS = mobx.toJS(newJob);
     var that = this;
 
-    console.log('before send: ' , that.state)
     fetch(config.host + '/job', 
       {
         method: 'POST',
@@ -66,8 +65,6 @@ export default class CreateJobModal extends Component {
         body: JSON.stringify(that.state)
       })
       .then((response) => {
-        console.log('new job', response.body)
-        console.log('added a job', that.state)
         Store.push(that.state, 'favoredJobs')
         // Store.push(that.state, 'userParams');
         that.closeModal();

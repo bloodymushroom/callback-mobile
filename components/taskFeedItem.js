@@ -100,7 +100,6 @@ class TaskFeedItem extends Component {
 
     var that = this;
     var jobView = Store.findJob(this.props.task.JobId);
-    console.log('found: ',jobView)
     this.props.navigator.push('jobactionview', {
       job: jobView
     });
@@ -137,7 +136,6 @@ class TaskFeedItem extends Component {
     const {idToken, activeUserId} = Store;
     var date = new Date();
     var completedText = "Completed task: " + this.props.task.type + '\n';
-    console.log('this id: ', this.props.task.id)
     // var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
     var that = this;
 
@@ -149,11 +147,9 @@ class TaskFeedItem extends Component {
       }
     })
     .then((response) => {
-        console.log('after - user id: ', activeUserId, 'action id: ', this.props.task.id, 'state id:', this.state.id)
         return response.json()
     })
     .then(function(response) {
-      console.log('response from marking as complete', response)
         Alert.alert(completedText);
       
       // reset actions from DB since db spawns new actions base on previous completed action

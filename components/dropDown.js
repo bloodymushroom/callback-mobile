@@ -20,7 +20,6 @@ export default class DropDown2 extends Component {
     var that = this;
 
     if (that.state.active){
-      console.log('actie click')
       that.setState({
         activeSelection: option,
         active: false

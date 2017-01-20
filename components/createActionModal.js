@@ -33,7 +33,6 @@ export default class CreateActionModal extends Component {
     const {activeUserId} = Store;
 
     var today = new Date().toISOString().slice(0, 19).replace(/T/, ' ');
-    console.log('today: ', today);
 
     this.state = {
       id: null,
@@ -72,7 +71,6 @@ export default class CreateActionModal extends Component {
   }
 
   submitFields(){
-    console.log('new action: ', this.state)
     const {idToken, activeUserId} = Store;
 
     var that = this;
@@ -223,7 +221,6 @@ export default class CreateActionModal extends Component {
                 }}
                 minuteInterval={10}
                 onDateChange={(datetime) => {
-                  console.log('datetime in datepicker: ', typeof datetime)
                   this.setState({scheduledTime: datetime});
                 }}
               />

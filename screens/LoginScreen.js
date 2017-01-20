@@ -135,11 +135,11 @@ export default class LoginScreen extends Component {
                   source={{uri: icons.google}}
                 />
               </TouchableOpacity>
+
+            </View>
             {
               this.state.loginFailed && <Text style={{color: 'red', textAlign: 'center'}}>Login failed, please try again.</Text>
             }
-
-            </View>
           </View>
           <TouchableOpacity style={{justifyContent: 'flex-end'}}>
             <Text style={{color: 'blue', textAlign: 'center'}}>New User? Click here!</Text>
