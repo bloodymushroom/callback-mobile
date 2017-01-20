@@ -128,11 +128,14 @@ export default class DeleteJobModal extends Component {
     ]
 
     var styles = {
+      headerStyle: {
+        margin: 5, flexDirection: 'row', alignItems: 'flex-end', borderBottomColor: '#F44336', borderBottomWidth: 2
+      },
       inputStyle: {
-        flex:1, height: 40, borderColor:"#a5a2a4", borderWidth: 1
+        flex:1, height: 30, borderColor:"#a5a2a4", borderWidth: 1
       },
       contentWrapperStyle: {
-        flex:1, margin: 10, marginTop: 20, flexDirection: 'row'
+        flex:1, margin: 10, marginTop: 10, flexDirection: 'row'
       },
       labelStyle: {
         flex:1, alignItems: 'flex-start'
@@ -151,7 +154,10 @@ export default class DeleteJobModal extends Component {
     }
     return (
       <View style={{flex:1, margin: 10}}>
-        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+        <View style={styles.headerStyle}>
+          <View style={{flex: 1, margin: 5, marginLeft: 10}}>
+            <Text style={{fontSize: 20}}>Delete Job</Text>
+          </View>
           <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
@@ -162,41 +168,37 @@ export default class DeleteJobModal extends Component {
 
         <View style={{flex:1, alignItems: 'center', flexDirection: 'column'}}>
           <View style={styles.contentWrapperStyle}>
-            <Text style={{fontSize: 20}}>Delete Job</Text>
-          </View> 
-          <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Job ID:</Text>
+              <Text style={{fontSize: 13}}>Job ID:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.job.id}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.job.id}</Text>
             </View>
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Job Title:</Text>
+              <Text style={{fontSize: 13}}>Job Title:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.job.jobTitle}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.job.jobTitle}</Text>
             </View>
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Company:</Text>
+              <Text style={{fontSize: 13}}>Company:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.job.company}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.job.company}</Text>
             </View>
           </View>
         </View>
         <View style={{flex:2, flexDirection: 'column', justifyContent: 'flex-start', margin:10, marginTop: 20}}>
           <View style={{marginBottom: 10}}>
-            <Text style={{fontSize:15, fontWeight:'bold'}}>Please select a reason for deleting this job:</Text>
+            <Text style={{fontSize:13, fontWeight:'bold'}}>Please select a reason for deleting this job:</Text>
           </View>
           <DropDown2 options={deleteReasons} setThisState={this._setJobState}/>
         </View>
 
-        <Text>State: {this.state.status}</Text>
         <View style={{justifyContent: 'flex-end'}}>
           <TouchableOpacity onPress={this.deleteJob} style={styles.noButtonStyle}>
             <Text style={{textAlign: 'center'}}>Remove this job</Text>
@@ -206,16 +208,3 @@ export default class DeleteJobModal extends Component {
     )
   }
 }
-        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        //   <Select
-        //     width={250} ref='SELECT1'
-        //     optionListRef={this._getOptionsList.bind(this)}
-        //     defaultValue="Select..."
-        //     onSelect={this._setJobState.bind(this)}
-        //     >
-        //     <Option style={{alignItems:'center'}}>Test</Option>
-        //     <Option>Hello</Option>
-        //   </Select>
-
-        //   <OptionList ref="OPTIONLIST"/>
-        // </View>

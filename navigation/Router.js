@@ -12,6 +12,7 @@ import CreateParamModal from '../components/createParamModal';
 import CreateJobModal from '../components/createJobModal';
 import DeleteJobModal from '../components/deleteJobModal';
 import CreateActionModal from '../components/createActionModal';
+import EditActionModal from '../components/editActionModal';
 import JobActionView from '../components/jobActionView';
 import LoginScreen from '../screens/LoginScreen';
 import AppScreen from '../screens/appScreen';
@@ -25,13 +26,14 @@ const Router = createRouter(() => ({
   jobinfomodal: () => JobInfoModal,
   createparammodal: () => CreateParamModal,
   createjobmodal: () => CreateJobModal,
+  editactionmodal: () => EditActionModal,
   deletejobmodal: () => DeleteJobModal,
   createactionmodal: () => CreateActionModal,
   jobactionview: () => JobActionView,
   links: () => JobListScreen,
   settings: () => SettingsScreen,
   params: () => ParamsScreen,
-  rootNavigation: () => RootNavigation,
+  rootNavigation: () => RootNavigation
 }));
 
 export default Router;

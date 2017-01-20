@@ -64,6 +64,18 @@ class ObservableStore {
     // console.log('jobs: ', this.jobs)
   }
 
+  @action findJob(id) {
+    console.log('in find job')
+    for (var i = 0; i < this.favoredJobs.length; i++) {
+      console.log('job: ', this.favoredJobs[i])
+      console.log('id: ',this.favoredJobs[i].id)
+      if (this.favoredJobs[i].id === id) {
+        console.log('found it!')
+        return this.favoredJobs[i];
+      }
+    }
+  }
+
   // general
   @action push(entry, array){
     this[array].push(entry);

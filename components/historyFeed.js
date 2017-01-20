@@ -45,7 +45,7 @@ export default class HistoryFeed extends Component {
           </Text>
         }
         <ScrollView >
-          {Store.completedActionsComputed.map( (e, i) => <TaskFeedItem category={that.props.category} task={e} key={i}/>)}
+          {Store.completedActionsComputed.map( (e, i) => <TaskFeedItem navigator={this.props.navigator} category={that.props.category} task={e} key={i} index={i}/>)}
         </ScrollView>
       </View>
     )

@@ -177,8 +177,8 @@ export default class TaskScreen extends Component {
       <View style={{flex: 1, flexDirection: 'column', marginTop: 5}}>
         <TaskStatus user={activeUser} taskTypes={testTaskTypes} navigator={this.props.navigator}/>
         <View style={{flex: 1}}>
-          <TaskFeed category='Tasks'/>
-          <HistoryFeed category='History'/>
+          <TaskFeed category='Tasks' navigator={this.props.navigator}/>
+          <HistoryFeed category='History' navigator={this.props.navigator}/>
         </View>
       </View>
     )

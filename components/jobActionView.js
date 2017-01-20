@@ -51,10 +51,11 @@ export default class JobActionView extends Component {
     
     return(
       <View style={{flex: 1, flexDirection: 'column', margin:5}}>
-        <View style={{marginBottom: 5}}>
+        <View style={{margin: 5}}>
           <Text>Job ID: {id}</Text>
-          <Text style={{fontSize: 15}}>{this.props.route.params.job.company}</Text>
-          <Text style={{fontSize: 20}}>{this.props.route.params.job.jobTitle}</Text>
+          <Text style={{fontSize: 15, marginTop: 5}}>{this.props.route.params.job.company}</Text>
+          <Text style={{fontSize: 20, marginTop: 5}}>{this.props.route.params.job.jobTitle}</Text>
+          <Text style={{fontSize: 13, marginTop: 5}}>Description: {this.props.route.params.job.snippet}..</Text>
         </View>
         <View style={styles.titleBar}>
           <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>Pending Tasks</Text>

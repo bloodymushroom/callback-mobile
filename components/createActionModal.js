@@ -118,11 +118,14 @@ export default class CreateActionModal extends Component {
     const {actionTypes} = Store;
 
     var styles = {
+      headerStyle: {
+        margin: 5, flexDirection: 'row', alignItems: 'flex-end', borderBottomColor: '#F44336', borderBottomWidth: 2
+      },
       inputStyle: {
-        height: 40, borderColor:"#a5a2a4", borderWidth: 1, padding: 2
+        height: 30, borderColor:"#a5a2a4", borderWidth: 1, padding: 2
       },
       contentWrapperStyle: {
-        margin: 10, marginTop: 20, flexDirection: 'row'
+        margin: 10, flexDirection: 'row'
       },
       labelStyle: {
         flex:1, alignItems: 'flex-start'
@@ -139,7 +142,10 @@ export default class CreateActionModal extends Component {
     }
     return (
       <View style={{flex:1, margin: 10}}>
-        <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+        <View style={styles.headerStyle}>
+          <View style={{flex: 1, margin: 5, marginLeft: 10}}>
+            <Text style={{fontSize: 20}}>Create Action</Text>
+          </View>
           <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
             <Image 
               style={{height: 20, width: 20}}
@@ -147,38 +153,34 @@ export default class CreateActionModal extends Component {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.contentWrapperStyle}>
-          <Text style={{fontSize: 20}}>Create Action</Text>
-        </View> 
-
         <View style={{flex: 1, alignItems: 'center', flexDirection: 'column'}}>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Job ID:</Text>
+              <Text style={{fontSize: 13}}>Job ID:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.jobId}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.jobId}</Text>
             </View>
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Job Title:</Text>
+              <Text style={{fontSize: 13}}>Job Title:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.title}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.title}</Text>
             </View>
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Company:</Text>
+              <Text style={{fontSize: 13}}>Company:</Text>
             </View>
             <View style={styles.contentStyle}>
-              <Text style={{fontSize: 15}}>{this.props.route.params.company}</Text>
+              <Text style={{fontSize: 13}}>{this.props.route.params.company}</Text>
             </View>
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Action Type:</Text>
+              <Text style={{fontSize: 13}}>Action Type:</Text>
             </View>
             <View style={styles.contentStyle}>
               <DropDown2 height={100} options={Object.keys(actionTypes)} setThisState={this.setType}/>
@@ -186,7 +188,7 @@ export default class CreateActionModal extends Component {
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Action:</Text>
+              <Text style={{fontSize: 13}}>Action:</Text>
             </View>
             <View style={styles.contentStyle}>
               <TextInput style={styles.inputStyle} 
@@ -198,7 +200,7 @@ export default class CreateActionModal extends Component {
           </View>
           <View style={styles.contentWrapperStyle}>
             <View style={styles.labelStyle}>
-              <Text style={{fontSize: 15}}>Scheduled Time:</Text>
+              <Text style={{fontSize: 13}}>Scheduled Time:</Text>
             </View>
             <View style={styles.contentStyle}>
               <DatePicker
@@ -226,7 +228,7 @@ export default class CreateActionModal extends Component {
                 }}
               />
             </View>
-          </View>
+          </View>          
         </View>
         <TouchableOpacity style={styles.createButtonStyle} onPress={this.submitFields}>
           <Text style={{color: '#ffffff', textAlign: 'center'}}>Submit</Text>

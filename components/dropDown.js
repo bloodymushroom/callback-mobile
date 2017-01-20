@@ -47,7 +47,7 @@ export default class DropDown2 extends Component {
         borderWidth: 1, borderColor: '#a5a2a4', width: 250
       },
       entry: {      
-        margin: 10
+        margin: 5
       }
     }
     return (

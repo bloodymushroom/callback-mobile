@@ -103,8 +103,11 @@ export default class CreateParamModal extends Component {
   render() {
     var that = this;
     var styles = {
+      headerStyle: {
+        margin: 5, flexDirection: 'row', alignItems: 'flex-end', borderBottomColor: '#F44336', borderBottomWidth: 2
+      },
       inputStyle: {
-        height: 40, borderColor:"#a5a2a4", borderWidth: 1
+        height: 30, borderColor:"#a5a2a4", borderWidth: 1
       },
       contentWrapperStyle: {
         margin: 5, marginTop: 10, flexDirection: 'row'
@@ -135,7 +138,10 @@ export default class CreateParamModal extends Component {
     } else {
       return (
         <View style={{flex:1, margin: 10}}>
-          <View style={{flexDirection: 'column',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <View style={styles.headerStyle}>
+            <View style={{flex: 1, margin: 5, marginLeft: 10}}>
+              <Text style={{fontSize: 20}}>New Job Search</Text>
+            </View>
             <TouchableOpacity onPress={this.closeModal} style={{alignSelf: 'flex-end', margin: 5, marginRight:10, width:20}}>
               <Image 
                 style={{height: 20, width: 20}}
@@ -143,15 +149,11 @@ export default class CreateParamModal extends Component {
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.contentWrapperStyle}>
-            <Text style={{fontSize: 20}}>New Job Search Parameter</Text>
-          </View> 
-
           <View style={{flex:1, marginTop: 20, alignItems: 'center', flexDirection: 'column'}}>
 
             <View style={styles.contentWrapperStyle}>
               <View style={styles.labelStyle}>
-                <Text style={{fontSize: 15}}>Job Type:</Text>
+                <Text style={{fontSize: 13}}>Job Type:</Text>
               </View>
               <View style={styles.contentStyle}>
                 <TextInput style={styles.inputStyle} 
@@ -164,15 +166,15 @@ export default class CreateParamModal extends Component {
 
             <View style={styles.contentWrapperStyle}>
               <View style={{flex:3, flexDirection: 'row', marginRight: 10}}>
-                <Text>City: </Text>
+                <Text style={{fontSize: 13}}>City: </Text>
                 <TextInput style={styles.inputStyle} flex={1}
                   onChangeText={(text) => {
                     that.setState({ city: text})
                   }} 
                 />  
               </View>
-              <View style={{flex:1, flexDirection: 'row'}}>
-                <Text>State: </Text>
+              <View style={{flex:2, flexDirection: 'row'}}>
+                <Text style={{fontSize: 13}}>State: </Text>
                 <TextInput style={styles.inputStyle} flex={1}
                   onChangeText={(text) => {
                     that.setState({ state: text})
@@ -183,7 +185,7 @@ export default class CreateParamModal extends Component {
 
             <View style={styles.contentWrapperStyle}>
               <View style={styles.labelStyle}>
-                <Text style={{fontSize: 15}}>Job Radius:</Text>
+                <Text style={{fontSize: 13}}>Job Radius:</Text>
               </View>
               <View style={styles.contentStyle}>
                 <TextInput style={styles.inputStyle} 
@@ -199,7 +201,7 @@ export default class CreateParamModal extends Component {
 
             <View style={styles.contentWrapperStyle}>
               <View style={styles.labelStyle}>
-                <Text style={{fontSize: 15}}>Zipcode:</Text>
+                <Text style={{fontSize: 13}}>Zipcode:</Text>
               </View>
               <View style={styles.contentStyle}>
                 <TextInput style={styles.inputStyle} 

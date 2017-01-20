@@ -83,6 +83,28 @@ class TaskFeedItem extends Component {
 
     this.setItemStyle = this.setItemStyle.bind(this);
     this.completeTask = this.completeTask.bind(this);
+    this.openJobActionView = this.openJobActionView.bind(this);
+    this.openEditActionModal = this.openEditActionModal.bind(this);
+
+  }
+
+  openJobActionView(){
+    var that = this;
+    var jobView = Store.findJob(this.props.task.JobId);
+    console.log('found: ',jobView)
+    this.props.navigator.push('jobactionview', {
+      job: jobView
+    });
+  }
+
+  openEditActionModal(){
+    var that = this;
+    // var jobView = Store.findJob(this.props.task.JobId);
+    // console.log('found: ',jobView)
+    this.props.navigator.push('editactionmodal', {
+      action: this.props.task,
+      index: this.props.index
+    });
   }
 
   shouldShow(){
@@ -206,7 +228,7 @@ class TaskFeedItem extends Component {
 
   render() {
     // console.log('this task: ', mobx.toJS(this.props.task))
-
+    // var jobNext = Store.findJob(this.props.task.JobId)
     var style = {
       barStyle: {flex: 1, flexDirection: 'row', alignItems: 'center', borderWidth: 2, borderRadius: 5,
       padding: 2, marginTop: 2, borderColor: this.state.borderColor, backgroundColor: this.state.backgroundColor
@@ -224,7 +246,9 @@ class TaskFeedItem extends Component {
           /></View>
           <View style={{flex: 1, flexDirection: 'column'}}>
             <Text>{displayString[this.props.task.type]}</Text>
-            <Text display={this.props.task.company}>{this.props.task.company}</Text>
+            <TouchableOpacity onPress={this.openJobActionView}>
+              <Text display={this.props.task.company}>{this.props.task.company}</Text>
+            </TouchableOpacity>
           </View>
         { this.props.category === 'Tasks' &&
         <View style={{justifyContent: 'center'}}>
@@ -235,7 +259,7 @@ class TaskFeedItem extends Component {
                 source={{uri: icons.done}} 
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.openEditActionModal}>
               <Image 
                 style={{height: 30, width: 30, opacity: 0.8}}
                 source={{uri: icons.x}} 
