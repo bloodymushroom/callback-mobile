@@ -137,6 +137,7 @@ export default class EditActionModal extends Component {
     .then(response => response.json())
     .then(responseJson => {
       console.log('response: ', responseJson);
+      this.closeModal();
     })
     .catch(err => console.log(err))
   }

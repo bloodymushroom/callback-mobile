@@ -268,7 +268,7 @@ class TaskFeedItem extends Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={this.openEditActionModal}>
               <Image 
-                style={{height: 30, width: 30, opacity: 0.8}}
+                style={{height: 30, width: 30, opacity: 0.5}}
                 source={{uri: icons.edit}} 
               />
             </TouchableOpacity>
