@@ -25,6 +25,7 @@ var icons = {
   'apply': 'https://cdn4.iconfinder.com/data/icons/gray-toolbar-7/512/test-256.png',
   done: 'https://cdn1.iconfinder.com/data/icons/basic-ui-icon-rounded-colored/512/icon-01-128.png',
   x: 'https://cdn0.iconfinder.com/data/icons/web/512/e52-128.png',
+  edit: 'http://icons.iconarchive.com/icons/pixelkit/gentle-edges/128/Edit-icon.png',
   'connections': 'https://cdn2.iconfinder.com/data/icons/ourea-icons/256/Connected_256x256-32.png',
   'like': 'https://cdn2.iconfinder.com/data/icons/designers-and-developers-icon-set/32/like-128.png',
   'learn': 'https://cdn0.iconfinder.com/data/icons/thin-science-space/24/thin-1036_brain_thinking_mind_knowledge-128.png',
@@ -85,6 +86,7 @@ class TaskFeedItem extends Component {
     this.completeTask = this.completeTask.bind(this);
     this.openJobActionView = this.openJobActionView.bind(this);
     this.openEditActionModal = this.openEditActionModal.bind(this);
+    this.calculateDays = this.calculateDays.bind(this);
 
   }
 
@@ -128,6 +130,7 @@ class TaskFeedItem extends Component {
     const {idToken, activeUserId} = Store;
     var date = new Date();
     var completedText = "Completed task: " + this.props.task.type + '\n';
+    console.log('this id: ', this.props.task.id)
     // var nextTask = "Next Task: (example) \ndue " + moment(date).format('MMMM Do YYYY')
     var that = this;
 
@@ -191,9 +194,7 @@ class TaskFeedItem extends Component {
     } 
   }
 
-  componentWillMount() {
-    // using momentJS, find the difference between now and the scheduled due date in terms of days
-    // store in variable diff
+  calculateDays() {
     var now = moment();
     var dueDate = moment(this.props.task.scheduledTime);
     var diff = dueDate.diff(now, 'days')
@@ -224,6 +225,12 @@ class TaskFeedItem extends Component {
     })
 
     this.setItemStyle(diff, this.props.task.completedTime)
+  }
+
+  componentWillMount() {
+    // using momentJS, find the difference between now and the scheduled due date in terms of days
+    // store in variable diff
+    this.calculateDays();
   }
 
   render() {
@@ -262,7 +269,7 @@ class TaskFeedItem extends Component {
             <TouchableOpacity onPress={this.openEditActionModal}>
               <Image 
                 style={{height: 30, width: 30, opacity: 0.8}}
-                source={{uri: icons.x}} 
+                source={{uri: icons.edit}} 
               />
             </TouchableOpacity>
           </View>
