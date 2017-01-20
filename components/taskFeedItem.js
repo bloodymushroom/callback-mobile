@@ -53,6 +53,9 @@ var displayString = {
   interview: 'Interview',
   phoneInterview: 'Phone Interview',
   personalInterview: 'On-site Interview',
+  email: 'Email',
+  sentEmail: 'Sent Email',
+  receivedEmail: 'Received Email',
   webInterview: 'Web Interview',
   resume: 'Update your resume',
   'follow up': 'Follow up on application status'
@@ -91,6 +94,10 @@ class TaskFeedItem extends Component {
   }
 
   openJobActionView(){
+    if (this.props.jobId) {
+      return;
+    }
+
     var that = this;
     var jobView = Store.findJob(this.props.task.JobId);
     console.log('found: ',jobView)

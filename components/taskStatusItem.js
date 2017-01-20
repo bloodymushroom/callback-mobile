@@ -42,7 +42,7 @@ class TaskStatusItem extends Component {
   }
 
   render(){
-    const {jobCount, actionCount, actionHistoryCount} = Store;
+    // const {jobCount, actionCount, actionHistoryCount} = Store;
     var style = {
       taskView: {
         flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', margin: 5

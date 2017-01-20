@@ -55,7 +55,11 @@ export default class JobActionView extends Component {
           <Text>Job ID: {id}</Text>
           <Text style={{fontSize: 15, marginTop: 5}}>{this.props.route.params.job.company}</Text>
           <Text style={{fontSize: 20, marginTop: 5}}>{this.props.route.params.job.jobTitle}</Text>
-          <Text style={{fontSize: 13, marginTop: 5}}>Description: {this.props.route.params.job.snippet}..</Text>
+          <ScrollView style={{marginTop: 5, height: 75}}>
+            <Text style={{fontSize: 13}}>
+              Description: {this.props.route.params.job.snippet}..
+            </Text>
+          </ScrollView>
         </View>
         <View style={styles.titleBar}>
           <Text style={{fontWeight: 'bold', margin: 3, color: 'white'}}>Pending Tasks</Text>
@@ -64,7 +68,7 @@ export default class JobActionView extends Component {
           <ScrollView>
           {
             Store.activeActionsComputed.map( (e, i) => (
-              <TaskFeedItem jobId={id} category='Tasks' task={e} key={i}/>
+              <TaskFeedItem jobId={id} category='Tasks' task={e} key={i} navigator={this.props.navigator}/>
             ))
           }
           </ScrollView>
